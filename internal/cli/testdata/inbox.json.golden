@@ -1,0 +1,87 @@
+{
+  "events": [
+    {
+      "id": "9102",
+      "position": "00000000000000009102-0000000000000009102",
+      "type": "card.answered",
+      "actor": {
+        "kind": "user",
+        "id": "106666050296328877"
+      },
+      "subject": {
+        "type": "card",
+        "id": "5003",
+        "number": 17
+      },
+      "payload": {
+        "title": "Postgres or SQLite for the cache?",
+        "answer": "postgres",
+        "decided": false
+      },
+      "created_at": "2026-10-18T11:56:00Z",
+      "mine": true
+    },
+    {
+      "id": "9103",
+      "position": "00000000000000009103-0000000000000009103",
+      "type": "card.status_changed",
+      "actor": {
+        "kind": "user",
+        "id": "106666050296328877"
+      },
+      "subject": {
+        "type": "card",
+        "id": "5002",
+        "number": 43
+      },
+      "payload": {
+        "title": "Add rate limiting",
+        "from": "backlog",
+        "to": "ready"
+      },
+      "created_at": "2026-10-18T11:59:20Z"
+    }
+  ],
+  "cursor": "00000000000000009103-0000000000000009103",
+  "remaining": 2,
+  "claims": [
+    {
+      "id": "5001",
+      "number": 42,
+      "kind": "task",
+      "status": "working",
+      "title": "Fix login",
+      "priority": "high",
+      "claim": {
+        "actor": {
+          "kind": "agent",
+          "id": "106666050296328901"
+        },
+        "session": "witty-lynx-3f9a",
+        "expires_at": "2026-10-18T12:30:00Z"
+      },
+      "updated_at": "0001-01-01T00:00:00Z"
+    }
+  ],
+  "claims_other_sessions": [
+    {
+      "id": "5004",
+      "number": 44,
+      "kind": "task",
+      "status": "working",
+      "title": "Index the events",
+      "priority": "normal",
+      "claim": {
+        "actor": {
+          "kind": "agent",
+          "id": "106666050296328901"
+        },
+        "session": "quiet-comet-c38c",
+        "expires_at": "2026-10-18T12:20:00Z"
+      },
+      "updated_at": "0001-01-01T00:00:00Z"
+    }
+  ],
+  "open_questions": 1,
+  "locks": []
+}

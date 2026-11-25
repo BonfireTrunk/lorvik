@@ -1,0 +1,32 @@
+Take an org-wide lock on a resource two agents must not touch at once (a
+generated file, a schema, a port), with -m saying why. The lease lasts 10 minutes
+unless --for says otherwise; renew it by running lock again from the same
+session, and release it with 'lorvik unlock'. Exit 4 if someone else holds it,
+unless --wait polls until it is free. A lock named like a card lane holds back
+the ready cards in that lane. To hold a lock around one command, use 'lock run'.
+
+Example:
+  lorvik lock schema -m "regenerating sqlc" --for 15m --card 42
+
+Usage
+  lorvik lock <name> [flags]
+  lorvik lock [command]
+
+Commands
+  run         Run a command while holding a lock
+
+Flags
+      --card int         Number of the card the work is for, in the current project
+      --for duration     Lease length; the server accepts 1m to 1h (default 10m0s)
+  -h, --help             help for lock
+  -m, --message string   What the lock protects (required)
+      --wait             Poll every 5 seconds until the lock is free, for up to 30 minutes
+
+Global flags
+      --api-url string   Server URL (default: LORVIK_API_URL)
+      --json             Output the raw API JSON
+  -p, --project string   Project slug (default: LORVIK_PROJECT or .lorvik.toml)
+  -Q, --quiet            Suppress the unread notice on stderr and an empty inbox
+      --session string   Session label for this chat (default: LORVIK_SESSION or derived; see lorvik session)
+
+Run 'lorvik lock <command> --help' for more information about a command.

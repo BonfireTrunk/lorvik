@@ -1,0 +1,36 @@
+Mark a card done. Leave a comment first if the next person needs context.
+If the card is not working under your claim (for example ready after an answer),
+it is claimed for you first; a card held by someone else is never taken over.
+If your own claim on it had run out meanwhile, a line on stderr says so.
+When the server cannot be reached, 'done' waits in the queue, and 'lorvik sync'
+or the next command sends it.
+
+A story closes with its fold: pass --into <path> (the requirements document
+you updated) or --no-contract-change. Every child must be done or dropped; the
+server refuses otherwise and its hint names the open ones. Run 'lorvik fold N'
+first to get the brief. A closed story is never reopened.
+
+A card without a parent may carry the same fold, so it is closed and folded in
+one call; a card with a parent is folded by its story and is refused one.
+
+Examples:
+  lorvik done 42 -m "merged in #318"
+  lorvik done 20 -m "webhook delivery shipped" --into docs/requirements/webhooks.md
+  lorvik done 21 --no-contract-change
+  lorvik done 43 -m "retry limit raised" --into docs/requirements/delivery.md
+
+Usage
+  lorvik done <number> [flags]
+
+Flags
+  -h, --help                 help for done
+      --into string          Requirements document the result was folded into (required for a story; allowed on a card without a parent)
+  -m, --message string       Short note recorded on the event
+      --no-contract-change   Fold into nothing: no durable change (required for a story, or --into; allowed on a card without a parent)
+
+Global flags
+      --api-url string   Server URL (default: LORVIK_API_URL)
+      --json             Output the raw API JSON
+  -p, --project string   Project slug (default: LORVIK_PROJECT or .lorvik.toml)
+  -Q, --quiet            Suppress the unread notice on stderr and an empty inbox
+      --session string   Session label for this chat (default: LORVIK_SESSION or derived; see lorvik session)

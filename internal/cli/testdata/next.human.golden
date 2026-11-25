@@ -1,0 +1,22 @@
+#42  working  high  Fix login  @claude-code (agent) (brisk-otter)
+parent #12  created 3d ago by Ana Souza  updated 3m ago  version 7  lease in 28m
+
+Users are redirected in a loop when the session has expired.
+
+Links:
+  blocks #44  Ship v0.2  (backlog)
+  blocked by #40  Session store  (done)
+
+Children:
+  #45  ready  normal  Add regression test
+
+Blocked by:
+  #17  ready  normal  ? Postgres or SQLite for the cache?
+
+Comment (latest): @claude-code (agent) 2h ago
+  Cookie parsing done.
+  Tests for expiry left.
+
+Recent events:
+  3m ago  claude-code (agent) claimed #42 "Fix login"
+  5h ago  Ana Souza moved #42 "Fix login" from backlog to ready

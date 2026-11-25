@@ -1,0 +1,33 @@
+Projects group cards, decisions and notes. A project has a visibility (org:
+everyone in the org can read it; private: only its members and org admins), a
+lease (how long a claim lives without renewal) and per-project members.
+
+Examples:
+  lorvik project ls
+  lorvik project create payments --name "Payments" --visibility private --lease 1h
+  lorvik project member add 106666050296328877 --role member -p payments
+  lorvik project archive payments
+
+Usage
+  lorvik project [flags]
+  lorvik project [command]
+
+Commands
+  archive     Archive a project (or restore it with --undo)
+  create      Create a project
+  edit        Change a project's name, description, visibility, concurrency or lease
+  ls          List the projects you can see
+  member      List and manage a project's members
+  show        Show a project with its card counts
+
+Flags
+  -h, --help   help for project
+
+Global flags
+      --api-url string   Server URL (default: LORVIK_API_URL)
+      --json             Output the raw API JSON
+  -p, --project string   Project slug (default: LORVIK_PROJECT or .lorvik.toml)
+  -Q, --quiet            Suppress the unread notice on stderr and an empty inbox
+      --session string   Session label for this chat (default: LORVIK_SESSION or derived; see lorvik session)
+
+Run 'lorvik project <command> --help' for more information about a command.

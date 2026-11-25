@@ -1,0 +1,26 @@
+Create a token and print ONLY the secret on stdout; details go to stderr. The
+secret is shown once. It is for you, or with --agent for an agent you manage.
+--expires-in takes a Go duration such as 720h (default from org settings);
+an agent's token lives at most 1h, the default with --agent. --scope read
+makes a token that cannot write.
+
+Examples:
+  export LORVIK_TOKEN=$(lorvik token create --name ci --expires-in 720h)
+  lorvik token create --agent 106666050296328877
+
+Usage
+  lorvik token create [flags]
+
+Flags
+      --agent string        Mint the token for this agent id
+      --expires-in string   Lifetime as a Go duration, e.g. 720h (default from org settings; 1h at most for --agent)
+  -h, --help                help for create
+      --name string         Label for the token
+      --scope string        read or write (default write)
+
+Global flags
+      --api-url string   Server URL (default: LORVIK_API_URL)
+      --json             Output the raw API JSON
+  -p, --project string   Project slug (default: LORVIK_PROJECT or .lorvik.toml)
+  -Q, --quiet            Suppress the unread notice on stderr and an empty inbox
+      --session string   Session label for this chat (default: LORVIK_SESSION or derived; see lorvik session)

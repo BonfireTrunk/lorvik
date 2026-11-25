@@ -1,0 +1,33 @@
+{
+  "id": "6001",
+  "project": "demo",
+  "slug": "architecture",
+  "title": "Architecture",
+  "body": "The server is a single binary.\nSee [[card:7]].",
+  "status": "active",
+  "version": 4,
+  "created_by": {
+    "kind": "user",
+    "id": "106666050296328877"
+  },
+  "updated_by": {
+    "kind": "agent",
+    "id": "106666050296328901"
+  },
+  "created_at": "2026-09-18T12:00:00Z",
+  "updated_at": "2026-10-18T10:00:00Z",
+  "backlinks": [
+    {
+      "type": "card",
+      "id": "5001",
+      "number": 42,
+      "title": "Fix login"
+    },
+    {
+      "type": "note",
+      "id": "6002",
+      "slug": "runbook",
+      "title": "Runbook"
+    }
+  ]
+}

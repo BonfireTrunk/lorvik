@@ -1,0 +1,38 @@
+Closed work is folded into the requirements documents (docs/requirements).
+
+  lorvik fold             done cards with no parent and no fold mark, newest
+                          closed first, each ending (closed <ago>)
+  lorvik fold N           the brief for story N: its children with their done
+                          summaries and Done: comments, its decisions, and the
+                          documents its lanes suggest. Read-only; the CLI
+                          composes it from card reads
+  lorvik fold N --into P  record that standalone done card N went into document
+                          P, or --no-contract-change when nothing durable
+                          changed
+
+A story is folded by closing it: 'lorvik done N --into P'. A card with a
+parent folds with its story. Folding is refused for a card that is not done or
+is already folded. A suggested document is marked missing when it is not found
+under the repository root; create it from docs/requirements/README.md.
+
+Examples:
+  lorvik fold
+  lorvik fold 20
+  lorvik fold 31 --no-contract-change
+
+Usage
+  lorvik fold [number] [flags]
+
+Flags
+      --cursor string        Continue from the next value printed by a previous page
+  -h, --help                 help for fold
+      --into string          Requirements document the card went into
+  -L, --limit int            Maximum cards to list (default 10)
+      --no-contract-change   Record the card as folded with nothing durable to write
+
+Global flags
+      --api-url string   Server URL (default: LORVIK_API_URL)
+      --json             Output the raw API JSON
+  -p, --project string   Project slug (default: LORVIK_PROJECT or .lorvik.toml)
+  -Q, --quiet            Suppress the unread notice on stderr and an empty inbox
+      --session string   Session label for this chat (default: LORVIK_SESSION or derived; see lorvik session)

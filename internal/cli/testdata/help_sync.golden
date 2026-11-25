@@ -1,0 +1,34 @@
+When the server cannot be reached, 'comment -m', 'add' and 'done' are stored
+on this machine instead of failing. 'sync' sends them, in order, as whoever
+queued them. A chat's own entries are also sent by its next command that talks
+to the server; 'sync' is for the rest, and for an entry nobody's next command
+will send.
+
+An entry the server refuses (the card is closed, it is held by someone else,
+a right is missing) stays in the queue marked refused, and 'sync' goes on with
+the next one. A refused entry is never sent again: read it with --list and
+remove it with --drop. When the server cannot be reached again, 'sync' stops
+and exits 1, leaving that entry and the rest queued.
+
+Entries of other agents or people, and of other servers, are left alone and
+counted.
+
+Examples:
+  lorvik sync
+  lorvik sync --list
+  lorvik sync --drop 3J7K2QX4NVD5B6WYT0HMP9R8LC
+
+Usage
+  lorvik sync [flags]
+
+Flags
+      --drop string   Remove the queued entry with this id, whoever queued it
+  -h, --help          help for sync
+      --list          Print the queued entries without sending
+
+Global flags
+      --api-url string   Server URL (default: LORVIK_API_URL)
+      --json             Output the raw API JSON
+  -p, --project string   Project slug (default: LORVIK_PROJECT or .lorvik.toml)
+  -Q, --quiet            Suppress the unread notice on stderr and an empty inbox
+      --session string   Session label for this chat (default: LORVIK_SESSION or derived; see lorvik session)

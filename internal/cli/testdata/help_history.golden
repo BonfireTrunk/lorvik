@@ -1,0 +1,28 @@
+List a card's earlier title and body texts, newest first, as: vN  @editor  time
+title. Every edit of the title or body keeps the text it replaced. Bodies are
+not listed; with --version N print that past version: a header line, the title
+and the body, plus a 'Page:' line when that version had an HTML page. --page
+with --version N prints that version's page HTML (exit 3 when none). A full
+page ends with the command for older versions.
+
+Examples:
+  lorvik history 42
+  lorvik history 42 --version 2
+  lorvik history 42 --version 2 --page > old.html
+
+Usage
+  lorvik history <number> [--version v] [flags]
+
+Flags
+      --cursor string   List versions older than this one: the next value printed by a previous page
+  -h, --help            help for history
+  -L, --limit int       Maximum versions to list (default 10)
+      --page            With --version, print that version's HTML page source instead
+      --version int     Show this past version
+
+Global flags
+      --api-url string   Server URL (default: LORVIK_API_URL)
+      --json             Output the raw API JSON
+  -p, --project string   Project slug (default: LORVIK_PROJECT or .lorvik.toml)
+  -Q, --quiet            Suppress the unread notice on stderr and an empty inbox
+      --session string   Session label for this chat (default: LORVIK_SESSION or derived; see lorvik session)

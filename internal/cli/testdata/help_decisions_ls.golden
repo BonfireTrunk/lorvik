@@ -1,0 +1,33 @@
+List decision cards of the current project, newest first, as card lines with
+the "D " marker. --all lists every project you can read, each line ending
+with its project in parentheses; -p global lists the global project. The
+status shows whether a decision is in force: done. --in-force is
+--status done.
+
+Examples:
+  lorvik decisions ls --status ready
+  lorvik decisions ls --in-force --all
+  lorvik -p global decisions ls
+
+Usage
+  lorvik decisions ls [flags]
+
+Flags
+      --all                     Every project you can read, not just the current one
+      --created-after string    Only created at or after this time: YYYY-MM-DD, 7d, 24h, 30m
+      --created-before string   Only created strictly before this time: YYYY-MM-DD, 7d, 24h, 30m
+      --cursor string           Continue from the next value printed by a previous page
+  -h, --help                    help for ls
+      --in-force                Only accepted decisions (--status done)
+  -L, --limit int               Maximum decisions to print (default 10)
+  -q, --query string            Full-text match on title and body
+      --status strings          Only these statuses, comma separated (ready is proposed, done is accepted, dropped)
+      --updated-after string    Only updated at or after this time: YYYY-MM-DD, 7d, 24h, 30m
+      --updated-before string   Only updated strictly before this time: YYYY-MM-DD, 7d, 24h, 30m
+
+Global flags
+      --api-url string   Server URL (default: LORVIK_API_URL)
+      --json             Output the raw API JSON
+  -p, --project string   Project slug (default: LORVIK_PROJECT or .lorvik.toml)
+  -Q, --quiet            Suppress the unread notice on stderr and an empty inbox
+      --session string   Session label for this chat (default: LORVIK_SESSION or derived; see lorvik session)

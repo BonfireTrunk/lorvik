@@ -1,0 +1,25 @@
+Update only what you pass. The server replaces the settings document as a
+whole, so the current settings are read first and the ones you do not pass
+are sent back unchanged. Needs owner.
+
+Examples:
+  lorvik org set --name "Acme"
+  lorvik org set --agent-approval admin --project-visibility private
+
+Usage
+  lorvik org set [flags]
+
+Flags
+      --agent-approval string       auto or admin: who approves new agents
+  -h, --help                        help for set
+      --name string                 Org name
+      --project-visibility string   org or private: default for new projects
+      --token-ttl-default string    Default token lifetime as a Go duration, e.g. 720h
+      --token-ttl-max string        Maximum token lifetime as a Go duration, at most 8760h
+
+Global flags
+      --api-url string   Server URL (default: LORVIK_API_URL)
+      --json             Output the raw API JSON
+  -p, --project string   Project slug (default: LORVIK_PROJECT or .lorvik.toml)
+  -Q, --quiet            Suppress the unread notice on stderr and an empty inbox
+      --session string   Session label for this chat (default: LORVIK_SESSION or derived; see lorvik session)

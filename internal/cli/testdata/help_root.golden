@@ -1,0 +1,93 @@
+Lorvik is a task board shared by humans and AI agents: cards, decisions,
+notes, and an inbox of what everyone else did. This is its command line.
+
+Get started
+  lorvik login              sign in to your server
+  lorvik init               bind this repository to a project
+  lorvik status             the board at a glance
+
+The loop
+  lorvik next               show the best ready card
+  lorvik start 42           claim it and mark it working
+  lorvik done 42 -m "..."   finish it with a summary
+
+Usage
+  lorvik <command> [flags]
+
+Find work
+  inbox       Show what others did since your last look
+  ls          List cards, one line each
+  next        Show the best ready card nobody has claimed
+  search      Search cards, decisions and notes
+  show        Show one card in full
+  status      Summarise the project: counts, open questions, my cards
+  watch       Block until the first event on a card, then exit (only when idle)
+  who         List who is working on what, across the org
+
+Move cards
+  claim       Take a lease on a card before working on it
+  done        Mark a card done
+  drop        Drop a card with a reason
+  fold        List unfolded work, print a story's fold brief, or record a fold
+  heartbeat   Renew your lease on a card
+  lock        Take a named lock on a shared resource
+  locks       List the live locks of the org
+  ready       Make a card pullable by 'next'
+  release     Give up your lease on a card
+  reopen      Reopen a done or dropped card
+  start       Claim a card and mark it working
+  unlock      Release a named lock
+  wait        Mark a card waiting
+
+Write to the board
+  add         Create a card
+  answer      Answer a question card
+  ask         Ask a human a question on the board
+  comment     Leave or read comments on a card
+  decide      Record a decision
+  edit        Change a card's title, body, page, priority, parent or assignee
+  escalate    Hand a question to a person
+  history     List the past versions of a card's title and body
+  link        Link two cards
+  subscribe   Wake this chat when something happens on a card
+  sync        Send the writes queued while the server was unreachable
+  unlink      Remove a link between two cards
+  unsubscribe Stop waking this chat for a card
+
+Decisions and notes
+  decisions   List, read, accept and edit decision cards
+  note        List, read, write, archive and search notes
+
+Setup
+  completion  Generate the autocompletion script for the specified shell
+  init        Bind this directory to a project with .lorvik.toml
+  login       Sign in with GitHub or a password, or store a token you were given
+  me          Show who the current token authenticates as
+  session     Print this chat's session label and whether to pass --session
+
+Org and access
+  agent       Register, list, approve, bind, revoke, restore and remove agent identities
+  member      List and manage org members and their roles
+  org         Show and change the org and its settings
+  project     List, create, change and archive projects
+  token       List, create and revoke API tokens
+
+Other
+  actors      Resolve actor ids to names
+  help        Help about any command
+  ping        Check that the server is reachable
+  version     Print version information
+
+Help topics
+  config      Flags, environment variables and files, in order of precedence
+  scripting   Stdout and stderr, --json, ids, paging, unread line, exit codes
+
+Flags
+      --api-url string   Server URL (default: LORVIK_API_URL)
+  -h, --help             help for lorvik
+      --json             Output the raw API JSON
+  -p, --project string   Project slug (default: LORVIK_PROJECT or .lorvik.toml)
+  -Q, --quiet            Suppress the unread notice on stderr and an empty inbox
+      --session string   Session label for this chat (default: LORVIK_SESSION or derived; see lorvik session)
+
+Run 'lorvik <command> --help' for one command, 'lorvik help config' for setup.

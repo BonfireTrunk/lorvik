@@ -1,0 +1,142 @@
+# https://taskfile.dev. Run `task --list` to see everything.
+version: "3"
+
+vars:
+  MODULE: github.com/BonfireTrunk/lorvik
+  VERSION:
+    sh: git describe --tags --always --dirty 2>/dev/null || echo dev
+  COMMIT:
+    sh: git rev-parse --short HEAD 2>/dev/null || echo none
+  DATE:
+    sh: date -u +%Y-%m-%dT%H:%M:%SZ
+  LDFLAGS: -s -w -X {{.MODULE}}/internal/build.Version={{.VERSION}} -X {{.MODULE}}/internal/build.Commit={{.COMMIT}} -X {{.MODULE}}/internal/build.Date={{.DATE}}
+
+tasks:
+  default:
+    cmds: [task --list]
+    silent: true
+
+  build:
+    desc: Build both binaries into bin/ (UI embedded if web/dist is built)
+    deps: [build:cli, build:server]
+
+  build:cli:
+    desc: Build the lorvik CLI into bin/lorvik
+    cmds:
+      - go build -trimpath -ldflags "{{.LDFLAGS}}" -o bin/lorvik ./cmd/lorvik
+
+  build:server:
+    desc: Build lorvikd with the embedded dashboard into bin/lorvikd
+    cmds:
+      - go build -trimpath -ldflags "{{.LDFLAGS}}" -o bin/lorvikd ./cmd/lorvikd
+
+  build:server:noui:
+    desc: Build lorvikd without the dashboard (API-only image)
+    cmds:
+      - go build -trimpath -tags noui -ldflags "{{.LDFLAGS}}" -o bin/lorvikd-noui ./cmd/lorvikd
+
+  web:install:
+    desc: Install dashboard dependencies
+    dir: web
+    cmds: [bun install]
+    sources: [package.json, bun.lock]
+    generates: [node_modules/.package-lock.json]
+
+  web:build:
+    desc: Build the dashboard into web/dist
+    dir: web
+    deps: [web:install]
+    cmds: [bun run build]
+    sources: [index.html, vite.config.ts, tsconfig*.json, "src/**/*"]
+    generates: [dist/index.html]
+
+  web:dev:
+    desc: Run the Vite dev server on :5173 (proxies /api to :8080)
+    dir: web
+    deps: [web:install]
+    cmds: [bun run dev]
+
+  dev:
+    desc: Run lorvikd with live reload, proxying the UI to Vite (run `task web:dev` too)
+    env:
+      LORVIK_DEV_UI_PROXY: http://localhost:5173
+      LORVIK_LOG_LEVEL: debug
+    cmds:
+      - go run github.com/bokwoon95/wgo@latest run -tags noui ./cmd/lorvikd serve
+
+  generate:
+    desc: Regenerate sqlc code; the result must be committed
+    cmds:
+      - go generate ./...
+
+  test:
+    desc: Run unit tests with the race detector
+    cmds:
+      - go test -race -count=1 ./...
+
+  test:integration:
+    desc: Run store tests against a real Postgres (needs LORVIK_TEST_DATABASE_URL)
+    cmds:
+      - go test -race -count=1 -tags integration ./internal/store/...
+
+  lint:
+    desc: gofmt, go vet, golangci-lint
+    cmds:
+      - 'test -z "$(gofmt -l .)" || (gofmt -l . && echo "gofmt - files need formatting" && exit 1)'
+      - go vet ./...
+      - golangci-lint run ./...
+
+  deps:guard:
+    desc: Fail if the CLI links github.com/atotto/clipboard (PATH scan in init)
+    cmds:
+      - |
+        if go list -deps ./cmd/lorvik | grep -qx github.com/atotto/clipboard; then
+          echo "deps:guard - cmd/lorvik depends on github.com/atotto/clipboard (via charm.land/bubbles or huh)."
+          echo "Its init() runs exec.LookPath over PATH, about 85 ms per call on WSL, on every lorvik invocation."
+          exit 1
+        fi
+
+  fix:
+    desc: Apply gofmt and go fix modernizers
+    cmds:
+      - gofmt -w .
+      - go fix ./...
+
+  tidy:
+    desc: go mod tidy and verify it changed nothing
+    cmds:
+      - go mod tidy
+      - git diff --exit-code go.mod go.sum
+
+  check:
+    desc: Full gate - lint, tests, tidy check and the API-only build
+    cmds:
+      - task: lint
+      - task: test
+      - task: deps:guard
+      - task: tidy
+      - go build -tags noui ./...
+
+  db:up:
+    desc: Start the local Postgres for development
+    dir: deploy/compose
+    cmds: [docker compose -f compose.dev.yaml up -d]
+
+  db:down:
+    desc: Stop the local Postgres and remove its volume
+    dir: deploy/compose
+    cmds: [docker compose -f compose.dev.yaml down -v]
+
+  clean:
+    desc: Remove bin/ and dist/
+    cmds: [rm -rf bin dist]
+
+  release:snapshot:
+    desc: Build release archives into dist/ without publishing anything
+    cmds:
+      - go run github.com/goreleaser/goreleaser/v2@latest release --snapshot --clean --skip=publish
+
+  docker:build:
+    desc: Build the lorvikd image (run task web:build first; the UI comes from web/dist)
+    cmds:
+      - docker build --build-arg VERSION={{.VERSION}} --build-arg COMMIT={{.COMMIT}} -t lorvikd:snapshot .

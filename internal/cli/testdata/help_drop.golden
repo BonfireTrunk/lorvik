@@ -1,0 +1,27 @@
+Close a card without doing it. --reason is required: obsolete, duplicate
+or wontfix. A duplicate must name the surviving card with --dup. Dropping a
+story with open children needs --cascade, which drops them too with the same
+reason and releases their claims. A dropped story is not folded. Decisions are
+dropped with 'lorvik decisions reject' or 'revoke'.
+
+Examples:
+  lorvik drop 42 --reason wontfix -m "out of scope for v1"
+  lorvik drop 43 --reason duplicate --dup 42
+  lorvik drop 20 --reason wontfix --cascade -m "abandoned"
+
+Usage
+  lorvik drop <number> [flags]
+
+Flags
+      --cascade          Drop a story's open children along with it
+      --dup int          Surviving card number when the reason is duplicate
+  -h, --help             help for drop
+  -m, --message string   Short note recorded on the event
+      --reason string    obsolete, duplicate or wontfix (required)
+
+Global flags
+      --api-url string   Server URL (default: LORVIK_API_URL)
+      --json             Output the raw API JSON
+  -p, --project string   Project slug (default: LORVIK_PROJECT or .lorvik.toml)
+  -Q, --quiet            Suppress the unread notice on stderr and an empty inbox
+      --session string   Session label for this chat (default: LORVIK_SESSION or derived; see lorvik session)

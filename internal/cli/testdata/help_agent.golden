@@ -1,0 +1,47 @@
+Agents are non-human actors with their own token. Register one per harness
+and machine so the board shows who did what. An agent reads where it is bound
+and does only what its rights allow: work (create and edit its own cards, ask,
+propose, note, comment), ready (move backlog cards to ready), triage (edit and
+drop other actors' cards) and answer (answer questions). It acts only in the
+projects it is bound to (or, with --org-wide, in every org-visible project),
+and never beyond what its owner may do. When the org requires approval, a new
+agent is pending until an admin runs 'lorvik agent approve'.
+
+Three ways to stop or bring back an agent:
+  revoke   stops it at once and keeps it; its chats cannot bring it back
+  restore  brings a revoked agent back with the access it had
+  remove   stops it for good and forgets it; the next chat of its harness
+           registers a new agent with no access
+
+Examples:
+  lorvik agent register --name claude-code --harness claude-code --project web
+  lorvik agent ls
+  lorvik agent bind 106666050296328877 --project api --rights work,ready
+  lorvik agent revoke 106666050296328877
+
+Usage
+  lorvik agent [flags]
+  lorvik agent [command]
+
+Commands
+  approve     Approve a pending agent
+  bind        Give an agent rights in a project
+  ls          List agents
+  register    Register an agent and print its token
+  remove      Remove an agent for good
+  restore     Bring a revoked agent back
+  revoke      Revoke an agent and all its tokens
+  show        Show an agent and where it may act
+  unbind      Remove an agent from a project
+
+Flags
+  -h, --help   help for agent
+
+Global flags
+      --api-url string   Server URL (default: LORVIK_API_URL)
+      --json             Output the raw API JSON
+  -p, --project string   Project slug (default: LORVIK_PROJECT or .lorvik.toml)
+  -Q, --quiet            Suppress the unread notice on stderr and an empty inbox
+      --session string   Session label for this chat (default: LORVIK_SESSION or derived; see lorvik session)
+
+Run 'lorvik agent <command> --help' for more information about a command.

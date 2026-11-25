@@ -1,0 +1,24 @@
+Create a project. The slug is its short name in URLs and --project. Name
+defaults to the slug. Visibility defaults to the org setting; lease is a Go
+duration between 1m and 24h (default 30m). Needs admin.
+
+Examples:
+  lorvik project create payments --name "Payments"
+  lorvik project create secret --visibility private --lease 1h
+
+Usage
+  lorvik project create <slug> [flags]
+
+Flags
+      --description string   Description
+  -h, --help                 help for create
+      --lease string         Claim lease as a Go duration, 1m to 24h (default 30m)
+      --name string          Display name (default: the slug)
+      --visibility string    org or private (default from org settings)
+
+Global flags
+      --api-url string   Server URL (default: LORVIK_API_URL)
+      --json             Output the raw API JSON
+  -p, --project string   Project slug (default: LORVIK_PROJECT or .lorvik.toml)
+  -Q, --quiet            Suppress the unread notice on stderr and an empty inbox
+      --session string   Session label for this chat (default: LORVIK_SESSION or derived; see lorvik session)

@@ -1,0 +1,33 @@
+Create a decision card and print its line. The body is the sections
+## Context, ## Decision and ## Consequences; -m is the decision text and is
+required, --context and --consequences are optional and left out when empty.
+
+An agent's decision is proposed (ready) and a human reviewer accepts it with
+'lorvik decisions accept'. A human caller records it as accepted (done) at
+once, which needs the reviewer role (exit 5 otherwise); pass --proposed to
+leave it for review instead. --parent puts it under an open story.
+--supersedes N names the accepted decision it replaces; N is dropped as
+superseded when the new one is accepted. -p global records an org-wide one.
+
+Examples:
+  lorvik decide "Use a pgx pool" -m "pgxpool, no database/sql." --context "Queue needs SKIP LOCKED." --parent 2
+  lorvik decide "Use pgx v6" -m "Move to v6." --supersedes 7 --proposed
+
+Usage
+  lorvik decide <title> -m <decision> [flags]
+
+Flags
+      --consequences string   What gets easier, harder or given up
+      --context string        What is being decided and what constrains it
+  -h, --help                  help for decide
+  -m, --message string        The decision (required; - reads stdin)
+      --parent int            Parent story number
+      --proposed              Leave it proposed for a reviewer even when a human records it
+      --supersedes int        Accepted decision number this one replaces
+
+Global flags
+      --api-url string   Server URL (default: LORVIK_API_URL)
+      --json             Output the raw API JSON
+  -p, --project string   Project slug (default: LORVIK_PROJECT or .lorvik.toml)
+  -Q, --quiet            Suppress the unread notice on stderr and an empty inbox
+      --session string   Session label for this chat (default: LORVIK_SESSION or derived; see lorvik session)

@@ -1,0 +1,25 @@
+Print the project name, this session's label and where it came
+from, card counts per status, the number of open
+questions and the open cards I hold or am assigned, split into this
+session's and other sessions', then every session holding a working card
+with its count, then the cards this chat is subscribed to (lorvik subscribe), then the
+live locks of the org. Read-only: it does not touch
+your inbox cursor. A person's own claims count as this session's wherever
+they were taken; an agent's only in the chat that took them. The line of a
+claimed card ends with the time left on its lease.
+
+Example:
+  lorvik status
+
+Usage
+  lorvik status [flags]
+
+Flags
+  -h, --help   help for status
+
+Global flags
+      --api-url string   Server URL (default: LORVIK_API_URL)
+      --json             Output the raw API JSON
+  -p, --project string   Project slug (default: LORVIK_PROJECT or .lorvik.toml)
+  -Q, --quiet            Suppress the unread notice on stderr and an empty inbox
+      --session string   Session label for this chat (default: LORVIK_SESSION or derived; see lorvik session)

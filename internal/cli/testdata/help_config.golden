@@ -1,0 +1,34 @@
+Settings resolve in this order: flags, then environment, then files.
+
+Environment
+  LORVIK_API_URL    server base URL (default http://localhost:8080)
+  LORVIK_PROJECT    project slug
+  LORVIK_CONFIG     path of the user config file, so an agent on the same
+                    machine user keeps its own; it turns off the harness
+                    agent below
+  LORVIK_SESSION    session label override (see lorvik session)
+  LORVIK_TOKEN      API token for CI and unattended runs; people sign in
+                    with lorvik login instead. It turns off the harness
+                    agent below
+  LORVIK_PASSWORD   password for lorvik login without a prompt
+  NO_COLOR          turn off colour
+
+Files
+  $LORVIK_CONFIG, else $XDG_CONFIG_HOME/lorvik/config.toml
+                    api_url, token and your inbox cursor (mode 0600)
+  .lorvik.toml      project and api_url for a repository, written by
+                    lorvik init; found by walking up to the repo root.
+                    Its api_url never receives your token unless it is the
+                    server the token is for
+  agents/<harness>@<machine>.toml beside the user config
+                    a harness agent's id, token and inbox cursor (mode 0600)
+
+Harness chats
+  In a chat of a harness lorvik recognises (Claude Code, Codex, OpenCode,
+  pi, Qwen Code, Copilot CLI, dsh, Goose), commands act as that harness's
+  own agent on this machine, <harness>@<machine>, never as you. The first
+  command registers it from your lorvik login; its token lives an hour and
+  is renewed from the same login. Each project it works in is asked about
+  once: your settings let it in, or it waits until you allow it on the
+  dashboard (exit 5). With nobody signed in it stops (exit 5).
+

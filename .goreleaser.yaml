@@ -1,0 +1,62 @@
+# https://goreleaser.com. Run `goreleaser check` after editing.
+version: 2
+
+project_name: lorvik
+
+before:
+  hooks:
+    - go mod tidy
+    # Build the dashboard once, not once per OS/arch (build-level hooks would).
+    - task web:build
+
+builds:
+  - id: lorvik
+    main: ./cmd/lorvik
+    binary: lorvik
+    env: [CGO_ENABLED=0]
+    goos: [linux, darwin]
+    goarch: [amd64, arm64]
+    flags: [-trimpath]
+    ldflags:
+      - -s -w
+      - -X github.com/BonfireTrunk/lorvik/internal/build.Version={{.Version}}
+      - -X github.com/BonfireTrunk/lorvik/internal/build.Commit={{.ShortCommit}}
+      - -X github.com/BonfireTrunk/lorvik/internal/build.Date={{.Date}}
+  - id: lorvikd
+    main: ./cmd/lorvikd
+    binary: lorvikd
+    env: [CGO_ENABLED=0]
+    goos: [linux, darwin]
+    goarch: [amd64, arm64]
+    flags: [-trimpath]
+    ldflags:
+      - -s -w
+      - -X github.com/BonfireTrunk/lorvik/internal/build.Version={{.Version}}
+      - -X github.com/BonfireTrunk/lorvik/internal/build.Commit={{.ShortCommit}}
+      - -X github.com/BonfireTrunk/lorvik/internal/build.Date={{.Date}}
+
+archives:
+  - id: lorvik
+    ids: [lorvik]
+    # No version in the name so releases/latest/download/<asset> resolves for install.sh.
+    name_template: "lorvik_{{ .Os }}_{{ .Arch }}"
+    files: [LICENSE-APACHE, cmd/lorvik/LICENSE, skills/**]
+  - id: lorvikd
+    ids: [lorvikd]
+    name_template: "lorvikd_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    files: [LICENSE, LICENSING.md, deploy/compose/compose.yaml]
+
+checksum:
+  name_template: checksums.txt
+
+changelog:
+  use: github
+  sort: asc
+  filters:
+    exclude: ["^docs:", "^test:", "^chore:"]
+
+release:
+  draft: true
+  prerelease: auto
+
+# Phase 2 adds: homebrew_casks, nfpms (deb/rpm), dockers, and scripts/install.sh.

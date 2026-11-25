@@ -1,0 +1,21 @@
+#20  working  normal  S Webhook delivery  progress 3/3
+lane webhooks
+
+Children:
+  #21  done  high  Add HMAC signing
+       hmac signing, tests green
+       Done: signing in sign.go. Left: nothing.
+  #22  done  normal  Add retry policy
+       five tries with jitter
+       Done: backoff 1s to 16s.
+  #23  dropped  normal  Write the runbook
+
+Decisions:
+  #24  done  normal  D Use a pgx pool
+       Context: Queue needs SKIP LOCKED. Decision: pgxpool, no database/sql. Consequences: No driver portability.
+  #3  done  normal  D Postgres table with SKIP LOCKED  (global)
+       Context: Redis adds a self-host dependency. Decision: Postgres table + SKIP LOCKED. Consequences: Throughput caps near 1k/s.
+
+Suggested documents:
+  docs/requirements/webhooks.md  (missing, create from docs/requirements/README.md)
+  docs/requirements/api.md

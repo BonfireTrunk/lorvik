@@ -1,0 +1,90 @@
+card.created             ana created task #42 "Fix login" (backlog, high)
+card.created             claude-code (agent) created question #17 "Which db?" (ready, normal)
+card.updated             ana edited #42 "Fix login" (title, priority)
+card.status_changed      claude-code (agent) moved #42 "Fix login" from working to done
+card.status_changed      ana moved #42 "Fix login" from ready to dropped (wontfix)
+card.status_changed      claude-code (agent) moved #42 "Fix login" from ready to waiting, blocked by #17 "Which db?"
+card.status_changed      ana moved #42 "Fix login" from waiting to ready, unblocked by #17 "Which db?"
+card.claimed             claude-code (agent) claimed #42 "Fix login"
+card.claimed             ana claimed #42 "Fix login" (taken over from claude-code (agent))
+card.released            claude-code (agent) released #42 "Fix login"
+card.released            ana released claude-code (agent)'s claim on #42 "Fix login"
+card.claimed             claude-code (agent) claimed #42 "Fix login" (taken over from claude-code (agent) in session quiet-heron-1a2b)
+card.released            ana released claude-code (agent)'s claim on #42 "Fix login" (session quiet-heron-1a2b)
+card.claim_ending        claude-code (agent)'s claim on #42 "Fix login" in session quiet-heron-1a2b ends in 5m
+card.claim_ending        ana's claim on #42 "Fix login" ends soon
+card.claim_expired       claude-code (agent)'s claim on #42 "Fix login" expired
+card.claim_expired       claude-code (agent)'s claim on #42 "Fix login" in session quiet-heron-1a2b expired
+card.answered            ana answered #17 "Which db?": postgres (recorded as a decision)
+card.answered            claude-code (agent) relayed an answer on #17 "Which db?": postgres
+card.answered            ana confirmed the answer on #17 "Which db?"
+card.answered            ana changed the answer on #17 "Which db?": sqlite (was postgres)
+card.answered            claude-code (agent) answered #17 "Which db?" for ana: postgres
+card.kept                ana kept the answer on #17 "Which db?"
+card.status_changed      claude-code (agent) accepted decision #9 "Use pgx" for ana
+card.status_changed      claude-code (agent) rejected decision #9 "Use pgx" for ana
+card.kept                ana kept the verdict on #9 "Use pgx"
+card.created             claude-code (agent) created question #17 "Which db?" (ready, normal), for a person
+card.for_person          claude-code (agent) marked #17 "Which db?" for a person
+card.for_person          ana cleared the for-a-person mark on #17 "Which db?"
+card.linked              ana linked #42 "Fix login" blocks #44 "Ship v0.2"
+card.unlinked            ana unlinked #42 "Fix login" relates #45 "Regression test"
+card.comment             claude-code (agent) commented on #42 "Fix login"
+card.status_changed      ana superseded decision #42 "Fix login" with #9
+card.status_changed      claude-code (agent) moved #12 "Auth rework" from ready to working, because #42 started
+card.folded              ana folded #12 "Auth rework" into docs/requirements/auth.md
+card.folded              ana folded #42 "Fix login", no contract change
+card.created             ana opened story #20 "Webhook delivery" (ready, normal)
+card.created             claude-code (agent) proposed decision #7 "Use pgx" (ready, normal)
+card.created             ana recorded decision #8 "Use pgx v6" (done, normal), supersedes #7
+card.status_changed      ana accepted decision #7 "Use pgx"
+card.status_changed      ana rejected decision #7 "Use pgx"
+card.status_changed      ana revoked decision #7 "Use pgx"
+card.status_changed      ana moved #22 "Retry" from ready to dropped (wontfix), dropped with story #20
+note.created             ana created note architecture "Architecture"
+note.updated             claude-code (agent) edited note architecture "Architecture"
+note.updated             ana archived note architecture "Architecture"
+project.created          ana created project web "Web"
+project.updated          ana updated project web
+project.archived         ana archived project web
+agent.registered         ana registered agent "claude-code"
+agent.registered         ana registered agent "codex" (pending approval)
+agent.approved           ana approved agent "codex"
+agent.revoked            ana revoked agent "codex"
+agent.restored           ana restored agent "codex"
+agent.restored           ana restored agent "codex" (pending approval)
+agent.removed            ana removed agent "codex"
+agent.join_requested     claude-code (agent) asked to join web
+agent.joined             claude-code (agent) joined web with rights work, allowed by its owner's settings
+agent.joined             ana let agent "claude-code" into web with rights work, ready
+agent.joined             ana let agent "claude-code" into web with no rights beyond reading
+agent.joined             ana let agent "claude-code" into web with role viewer
+agent.session_rights     ana gave chat quiet-heron-1a2b of claude-code ready in web
+agent.session_rights     ana took back chat quiet-heron-1a2b of claude-code in web
+agent.session_rights     ana gave chat quiet-heron-1a2b of claude-code answer, ready in web, ending in 8h
+agent.session_rights     the grant of chat quiet-heron-1a2b of claude-code in web reached its end
+agent.join_denied        ana denied agent "claude-code" in api
+agent.updated            ana set agent "claude-code"'s join setting to allow
+agent.join_setting       ana set their agents' joining to allow
+agent.join_setting       ana set their agents' joining in api to ask
+membership.granted       ana added claude-code (agent) as member
+membership.granted       ana added claude-code (agent) with rights work, ready
+membership.changed       ana gave claude-code (agent) rights work in project web
+membership.granted       ana added claude-code (agent) as reviewer in project web
+membership.changed       ana made bo admin
+membership.removed       ana removed claude-code (agent)
+membership.requested     claude-code (agent) asked to join the org
+membership.invited       ana invited bo as member
+lock.acquired            claude-code (agent) took lock deploy (release v0.4)
+lock.released            claude-code (agent) released lock deploy
+lock.released            ana force-released claude-code (agent)'s lock deploy
+lock.expired             claude-code (agent)'s lock deploy expired
+token.rotated            ana's token lvk_u_ab12cd was rotated
+token.reuse_detected     a rotated token of ana (lvk_u_ab12cd) was used again and has been revoked
+identity.linked          ana linked GitHub account ana-gh to their account
+identity.unlinked        ana unlinked GitHub account ana-gh from their account
+identity.signin_failed   a wrong password was entered for ana's login
+identity.signin_refused  repeated wrong passwords were entered for ana's login, up to a sign-in limit; tries over it are refused for now
+user.deleted             ana deleted their account
+card.frobbed             ana card.frobbed #42
+widget.spun              claude-code (agent) widget.spun widget:77

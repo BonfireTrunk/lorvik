@@ -1,0 +1,4 @@
+#42  working  high  Fix login  @claude-code (agent)
+#43  ready  normal  Add rate limiting
+#17  ready  normal  ? Postgres or SQLite for the cache?  @Ana Souza
+remaining 4, next: lorvik ls --project demo --cursor eyJsIjoiY2FyZHMifQ

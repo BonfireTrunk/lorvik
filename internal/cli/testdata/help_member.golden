@@ -1,0 +1,33 @@
+Org members hold one of five roles, in order: viewer, member, reviewer,
+admin, owner. The org role applies to every project; a project role can raise
+it for one project ('lorvik project member'). Removing a member revokes their
+tokens. Members are addressed by actor id, or user:<id> and agent:<id>; a bare
+id means a user. You cannot grant a role above your own.
+
+Examples:
+  lorvik member ls
+  lorvik member add 106666050296328877 --role member
+  lorvik member role 106666050296328877 reviewer
+  lorvik member remove 106666050296328877
+
+Usage
+  lorvik member [flags]
+  lorvik member [command]
+
+Commands
+  add         Add an org member
+  ls          List org members
+  remove      Remove an org member and revoke their tokens
+  role        Change an org member's role
+
+Flags
+  -h, --help   help for member
+
+Global flags
+      --api-url string   Server URL (default: LORVIK_API_URL)
+      --json             Output the raw API JSON
+  -p, --project string   Project slug (default: LORVIK_PROJECT or .lorvik.toml)
+  -Q, --quiet            Suppress the unread notice on stderr and an empty inbox
+      --session string   Session label for this chat (default: LORVIK_SESSION or derived; see lorvik session)
+
+Run 'lorvik member <command> --help' for more information about a command.

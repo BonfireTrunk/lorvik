@@ -1,0 +1,33 @@
+/*
+ * The scaffold's base, in app scope: imported into the base layer so every
+ * utility still wins. Page-only rules (container, slots, display heading
+ * sizes, photograph treatment) are left out; heading sizes come from the
+ * component classes in style.css.
+ */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { overflow-x: clip; }
+html { scrollbar-color: var(--color-muted) var(--color-paper); }
+body {
+  margin: 0;
+  background: var(--color-canvas);
+  color: var(--color-fg);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--text-base--line-height);
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+  caret-color: var(--color-accent);
+}
+::selection { background: var(--color-accent-2); color: var(--color-on-signal); }
+:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; }
+a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 0.16em; }
+h1, h2, h3, h4 { overflow-wrap: break-word; min-width: 0; text-wrap: balance; letter-spacing: var(--tracking-display); }
+p { text-wrap: pretty; }
+input[type="checkbox"], input[type="radio"] { accent-color: var(--color-accent); }
+code { font-family: var(--font-mono); }
+/* Inter's tabular set also fixes the hyphen's width, so figures go tabular only where columns of them must align. */
+time, .tabular { font-variant-numeric: tabular-nums; }
+[hidden] { display: none !important; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}

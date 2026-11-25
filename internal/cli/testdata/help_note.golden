@@ -1,0 +1,39 @@
+Notes are markdown pages that outlive any card: architecture, runbooks,
+conventions. Notes belong to the current project; -p global addresses the
+org-wide ones. A note is addressed by its slug, or by its id. Link with [[card:42]]
+or [[note:slug]] in the body (decisions are cards, so [[card:7]] covers them). Every edit keeps the old text: see 'note history'.
+
+Examples:
+  lorvik note ls
+  lorvik note show architecture
+  lorvik note new runbook --title "Runbook" -b "How to deploy"
+  lorvik note history runbook
+  lorvik note show runbook --version 2
+
+Usage
+  lorvik note [flags]
+  lorvik note [command]
+
+Aliases
+  note, notes
+
+Commands
+  archive     Archive a note (or restore it with --undo)
+  edit        Change a note's title, body or page
+  history     List the past versions of a note
+  ls          List notes
+  new         Create a note
+  search      Search notes
+  show        Show a note
+
+Flags
+  -h, --help   help for note
+
+Global flags
+      --api-url string   Server URL (default: LORVIK_API_URL)
+      --json             Output the raw API JSON
+  -p, --project string   Project slug (default: LORVIK_PROJECT or .lorvik.toml)
+  -Q, --quiet            Suppress the unread notice on stderr and an empty inbox
+      --session string   Session label for this chat (default: LORVIK_SESSION or derived; see lorvik session)
+
+Run 'lorvik note <command> --help' for more information about a command.

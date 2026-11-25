@@ -1,0 +1,22 @@
+List every live claim of the org on cards you can see, grouped by holder and
+session: a header line per holder and session (name, agent or person,
+session), then one line per card with its number, project, title, time since
+it was claimed and the lease left. A summary line gives how many chats
+(sessions), agents, people and projects. Org-wide: the global -p does not
+narrow it.
+
+Example:
+  lorvik who
+
+Usage
+  lorvik who [flags]
+
+Flags
+  -h, --help   help for who
+
+Global flags
+      --api-url string   Server URL (default: LORVIK_API_URL)
+      --json             Output the raw API JSON
+  -p, --project string   Project slug (default: LORVIK_PROJECT or .lorvik.toml)
+  -Q, --quiet            Suppress the unread notice on stderr and an empty inbox
+      --session string   Session label for this chat (default: LORVIK_SESSION or derived; see lorvik session)

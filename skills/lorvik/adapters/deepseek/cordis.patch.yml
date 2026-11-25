@@ -1,0 +1,5 @@
+# SPDX-License-Identifier: Apache-2.0
+- insert:
+    - id: lorvik-wake
+      name: '@local/lorvik-wake-dsh'
+      config: {}

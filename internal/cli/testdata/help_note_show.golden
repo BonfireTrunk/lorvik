@@ -1,0 +1,29 @@
+Print a note: header line, body, and what links back to it. With --version N
+print that past version of the note instead (see 'note history'). A note with
+an HTML page adds a line 'Page: size, open <dashboard link>' after the version
+line (a past version says how to print its page). --page prints the page's
+HTML source instead (exit 3 when there is none), of the current note or, with
+--version N, of that version; with --json it prints the HTMLPage, or the
+revision with --version.
+
+Examples:
+  lorvik note show architecture
+  lorvik note show conventions -p global
+  lorvik note show architecture --version 2
+  lorvik note show architecture --page > architecture.html
+  lorvik note show architecture --page --version 2
+
+Usage
+  lorvik note show <slug|id> [flags]
+
+Flags
+  -h, --help          help for show
+      --page          Print the note's HTML page source instead
+      --version int   Show this past version
+
+Global flags
+      --api-url string   Server URL (default: LORVIK_API_URL)
+      --json             Output the raw API JSON
+  -p, --project string   Project slug (default: LORVIK_PROJECT or .lorvik.toml)
+  -Q, --quiet            Suppress the unread notice on stderr and an empty inbox
+      --session string   Session label for this chat (default: LORVIK_SESSION or derived; see lorvik session)

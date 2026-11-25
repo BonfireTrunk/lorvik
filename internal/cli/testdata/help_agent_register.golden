@@ -1,0 +1,35 @@
+Register an agent and print ONLY its token on stdout, so it can be captured:
+  export LORVIK_TOKEN=$(lorvik agent register --name claude-code --harness claude-code --project web)
+Everything else goes to stderr. The token is shown once. The name is the
+first argument or --name. The agent gets --rights (default work; any of work,
+ready, triage and answer that you hold) in each --project (repeatable), or in
+every org-visible project with --org-wide. With neither it is bound to nothing yet; use 'lorvik agent bind'.
+Agent tokens live at most an hour (the default; --expires-in takes a shorter
+Go duration such as 30m). Mint the next one from your own login with
+'lorvik token create --agent <id>'. The agent acts only within your current
+rights: it stops when you are suspended or leave the org, and never holds a
+more rights in a project than you hold. A chat of a harness lorvik recognises
+registers its own agent; this is for the rest (lorvik help config).
+
+Examples:
+  lorvik agent register ci-bot --harness other --project web
+  lorvik agent register --name codex --harness codex --machine build-1 --project web --project api --rights work,ready
+
+Usage
+  lorvik agent register [name] [flags]
+
+Flags
+      --expires-in string     Token lifetime as a Go duration, at most and by default 1h
+      --harness string        claude-code, codex, opencode, gemini-cli, copilot-cli, cursor, pi, qwen, dsh, goose or other
+  -h, --help                  help for register
+      --machine string        Machine name, for the activity view
+      --name string           Agent name (or give it as the argument)
+      --org-wide              Give the rights in every org-visible project
+  -p, --project stringArray   Project slug to bind the agent to (repeatable)
+      --rights strings        Rights to give, comma-separated: work, ready, triage, answer, decide (default [work])
+
+Global flags
+      --api-url string   Server URL (default: LORVIK_API_URL)
+      --json             Output the raw API JSON
+  -Q, --quiet            Suppress the unread notice on stderr and an empty inbox
+      --session string   Session label for this chat (default: LORVIK_SESSION or derived; see lorvik session)

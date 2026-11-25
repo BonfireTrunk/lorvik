@@ -1,0 +1,31 @@
+Print a card: header line, a meta line, the body, then the sections that
+are not empty: Links, Children, Blocked by, Decisions, Comment (latest) and
+Recent events (5). Showing a card you hold renews your lease. A card with an
+HTML page adds a line 'Page: size, open <dashboard link>' after the meta line.
+--page prints the page's HTML source instead (exit 3 when there is none); with
+--json it prints the HTMLPage.
+
+On a story the meta line adds progress (children done or dropped over all
+children) and, once closed, where it was folded. Decisions lists the story's
+decision cards and the decisions applied to it. On a decision the meta line
+adds who accepted it and when, and the decisions it supersedes or that
+supersede it.
+
+Examples:
+  lorvik show 42
+  lorvik show 42 --json
+  lorvik show 42 --page > card-42.html
+
+Usage
+  lorvik show <number> [flags]
+
+Flags
+  -h, --help   help for show
+      --page   Print the card's HTML page source instead
+
+Global flags
+      --api-url string   Server URL (default: LORVIK_API_URL)
+      --json             Output the raw API JSON
+  -p, --project string   Project slug (default: LORVIK_PROJECT or .lorvik.toml)
+  -Q, --quiet            Suppress the unread notice on stderr and an empty inbox
+      --session string   Session label for this chat (default: LORVIK_SESSION or derived; see lorvik session)

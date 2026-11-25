@@ -1,0 +1,45 @@
+{
+  "items": [
+    {
+      "id": "5001",
+      "number": 42,
+      "kind": "task",
+      "status": "working",
+      "title": "Fix login",
+      "priority": "high",
+      "claim": {
+        "actor": {
+          "kind": "agent",
+          "id": "106666050296328901"
+        },
+        "expires_at": "2026-10-18T12:20:00Z"
+      },
+      "updated_at": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "5002",
+      "number": 43,
+      "kind": "task",
+      "status": "ready",
+      "title": "Add rate limiting",
+      "priority": "normal",
+      "updated_at": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "5003",
+      "number": 17,
+      "kind": "question",
+      "status": "ready",
+      "title": "Postgres or SQLite for the cache?",
+      "priority": "normal",
+      "assignee": {
+        "kind": "user",
+        "id": "106666050296328877"
+      },
+      "updated_at": "0001-01-01T00:00:00Z"
+    }
+  ],
+  "next": "eyJsIjoiY2FyZHMifQ",
+  "prev": "eyJiIjp0cnVlfQ",
+  "remaining": 4
+}

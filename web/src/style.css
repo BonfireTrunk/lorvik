@@ -1,0 +1,469 @@
+/* Hallmark · shape: app screen · genre: modern-minimal · theme: Wayfind (deal 2/3, seed task-board-shared-humans-0559·182690cf·2026-10-31·r0) · redesign: full
+ * nav: top bar kept (project, sections, search, keys, inbox), sections scroll sideways under 60rem · signature: the board as a departure board, Running now on the ink band with amber time left · states: loading, empty, error, full · wayfind: platform (light), night (dark)
+ * axes: light/sans+mono/cool · posture: committed · contrast: pass · modes: light+dark · motion: colour only, 120ms, steps(1) · v2.0.0 */
+/* Hallmark · pre-emit critique: P4 H4 E3 S4 R4 V3 · weakest: E (2px ink borders on every surface would drown a dense board), tiles and panels take a 1px rule; 2px ink is kept for controls, dialogs, column heads and the header underside */
+@import "tailwindcss";
+@import "./tokens.css";
+@import "./base.css" layer(base);
+
+@layer components {
+  /* Layout */
+  .page {
+    @apply mx-auto max-w-4xl space-y-4;
+  }
+  .page-reading {
+    @apply mx-auto max-w-3xl space-y-5;
+  }
+  .toolbar {
+    @apply flex flex-wrap items-center gap-x-3 gap-y-2;
+  }
+  .page-title {
+    @apply text-xl font-semibold;
+  }
+  .detail-title {
+    @apply text-xl font-semibold;
+  }
+  /* What is copied or matched: card numbers, slugs, branches, lock names. */
+  .ident {
+    @apply font-mono font-medium;
+  }
+  /* Section heads: the body face at UI size, sentence case, untracked. */
+  .h2 {
+    @apply mb-2 text-sm font-semibold;
+    color: var(--color-ink-2);
+    letter-spacing: 0;
+  }
+  .meta {
+    @apply text-xs text-muted;
+  }
+  .state {
+    @apply text-muted;
+  }
+
+  /* Surfaces: a 1px rule for panels and rows; 2px ink for what floats or heads. */
+  .panel {
+    background: var(--color-panel);
+    border: var(--rule-hair) solid var(--color-line);
+    border-radius: var(--radius-panel);
+  }
+  .float {
+    background: var(--color-panel);
+    border: var(--rule-bar) solid var(--color-fg);
+    box-shadow: var(--shadow-float);
+    border-radius: var(--radius-panel);
+  }
+  .list {
+    @apply divide-y divide-line;
+    border-top: var(--rule-bar) solid var(--color-fg);
+    border-bottom: var(--rule-hair) solid var(--color-line);
+  }
+  .list-row {
+    @apply flex items-baseline gap-3 px-1 py-2;
+  }
+  a.list-row:hover,
+  button.list-row:hover {
+    background: var(--color-sunken);
+  }
+  .plate {
+    background: var(--color-plate);
+    border-radius: var(--radius-panel);
+    color: var(--color-plate-fg);
+  }
+  .plate .btn {
+    border-color: var(--color-plate-fg);
+    color: var(--color-plate-fg);
+  }
+  .plate .btn:hover:not(:disabled) {
+    background: var(--color-plate-fg);
+    color: var(--color-plate);
+  }
+  /* Figures on ink are amber, as on a departure board. */
+  .plate .figure {
+    @apply font-mono font-semibold;
+    color: var(--color-accent-2);
+  }
+
+  /*
+   * Links navigate (.lnk, underlined). Everything that acts in place is a
+   * button: .btn (outlined), .btn-primary (cobalt, one per screen or dialog),
+   * .btn-danger, .btn-quiet (no edge until hover), .btn-icon (square, needs an
+   * accessible name), .btn-link (inline text action, never underlined).
+   */
+  .btn {
+    @apply inline-flex h-8 cursor-pointer items-center gap-1.5 px-3 text-sm font-medium whitespace-nowrap;
+    border: var(--rule-hair) solid var(--color-ink-rule);
+    border-radius: var(--radius-control);
+    background: transparent;
+    color: var(--color-fg);
+    transition: background-color var(--dur-micro) steps(1), color var(--dur-micro) steps(1);
+  }
+  .btn:hover:not(:disabled) {
+    background: var(--color-sunken);
+    border-color: var(--color-fg);
+  }
+  .btn > svg {
+    @apply h-4 w-4 shrink-0;
+  }
+  .btn .kbd {
+    @apply -mr-1 ml-0.5;
+  }
+  .btn:active:not(:disabled) {
+    background: var(--color-fg);
+    color: var(--color-canvas);
+  }
+  .btn:disabled {
+    @apply cursor-not-allowed;
+    background: var(--color-sunken);
+    border-color: var(--color-line);
+    color: var(--color-muted);
+  }
+  .btn-primary {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: var(--color-accent-fg);
+  }
+  .btn-primary:hover:not(:disabled) {
+    background: var(--color-fg);
+    border-color: var(--color-fg);
+    color: var(--color-canvas);
+  }
+  .btn-danger {
+    color: var(--color-danger);
+    border-color: var(--color-danger);
+  }
+  .btn-danger:hover:not(:disabled) {
+    background: var(--color-danger);
+    color: var(--color-canvas);
+  }
+  .btn-quiet {
+    border-color: transparent;
+    color: var(--color-ink-2);
+  }
+  .btn-quiet:hover:not(:disabled) {
+    border-color: var(--color-line);
+    color: var(--color-fg);
+  }
+  .btn-icon {
+    @apply w-8 justify-center px-0;
+  }
+  .btn-link {
+    @apply inline-flex cursor-pointer items-center gap-1 text-sm font-medium text-accent;
+  }
+  .btn-link > svg {
+    @apply h-3.5 w-3.5 shrink-0;
+  }
+  .btn-link:hover {
+    color: var(--color-fg);
+  }
+  .lnk {
+    color: var(--color-fg);
+    text-decoration: underline;
+    text-decoration-color: var(--color-line);
+    text-underline-offset: 0.18em;
+  }
+  .lnk:hover {
+    color: var(--color-accent);
+    text-decoration-color: currentColor;
+  }
+  /* A whole row's sentence that links: underlined only under the pointer, so a feed is not a wall of rules. */
+  .lnk-quiet {
+    text-decoration: none;
+  }
+  .lnk-quiet:hover {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+  }
+
+  /* A choice set: separate cells; the chosen one is ink. */
+  .cells {
+    @apply inline-flex flex-wrap gap-1;
+  }
+  .cell {
+    @apply h-8 cursor-pointer px-3 text-sm font-medium whitespace-nowrap;
+    border-radius: var(--radius-control);
+    color: var(--color-fg);
+  }
+  .cell:hover {
+    background: var(--color-sunken);
+  }
+  .cell[aria-pressed="true"],
+  .cell[aria-current="page"] {
+    background: var(--color-fg);
+    color: var(--color-canvas);
+  }
+  /* On/off toggles where most are on: on is a sand cell, off is bare and struck through, so the set is not a black bar. */
+  .cells-toggle .cell[aria-pressed="true"] {
+    background: var(--color-tag);
+    color: var(--color-tag-fg);
+  }
+  .cells-toggle .cell[aria-pressed="true"]:hover {
+    background: var(--color-tag-hover);
+  }
+  .cells-toggle .cell[aria-pressed="false"] {
+    color: var(--color-muted);
+    text-decoration: line-through;
+  }
+
+  /* Form controls: an ink edge, the ring inset on focus. */
+  .field {
+    @apply h-8 w-full px-2 text-sm;
+    border: var(--rule-hair) solid var(--color-fg);
+    border-radius: var(--radius-control);
+    background: var(--color-panel);
+    color: var(--color-fg);
+  }
+  textarea.field {
+    @apply h-auto py-1.5;
+  }
+  .field:focus-visible {
+    outline-offset: -2px;
+  }
+  .field:disabled {
+    @apply cursor-not-allowed;
+    background: var(--color-sunken);
+    border-color: var(--color-line);
+    color: var(--color-muted);
+  }
+  /* A search box a shortcut focuses: a halo, so the jump is seen from across the page. */
+  .field-find:focus {
+    border-color: var(--color-focus);
+    box-shadow: 0 0 0 4px color-mix(in oklch, var(--color-focus) 30%, transparent);
+  }
+  /* A card a search matches on the Board; the same accent as the Map's matches. */
+  .card-hit {
+    outline: 3px solid var(--color-accent);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 7px color-mix(in oklch, var(--color-accent) 22%, transparent);
+  }
+  /* A matched tile keeps a visible focus: the focus colour, apart from the accent of the match. */
+  .card-hit:focus-visible {
+    outline-color: var(--color-focus);
+    box-shadow: 0 0 0 7px color-mix(in oklch, var(--color-focus) 30%, transparent);
+  }
+  /* The box draws its own clear button. */
+  .field-find::-webkit-search-cancel-button {
+    appearance: none;
+  }
+  .field-auto {
+    @apply w-auto;
+  }
+  .label {
+    @apply mb-1 block text-xs font-medium text-muted;
+  }
+
+  /* Chips: a fill with no edge. Plain ones are sand; a tone through --c tints
+     the fill and, mixed toward ink so it stays readable, the text. */
+  .badge {
+    @apply inline-flex h-6 items-center gap-1 px-2.5 text-sm leading-none font-medium whitespace-nowrap;
+    border-radius: var(--radius-control);
+    color: var(--color-tag-fg);
+    background: var(--color-tag);
+  }
+  .badge-tight {
+    @apply h-5 px-2;
+  }
+  .badge[class*="badge-st-"],
+  .badge-accent,
+  .badge-question {
+    color: color-mix(in oklch, var(--c) 70%, var(--color-fg));
+    background: color-mix(in oklch, var(--c) 14%, var(--color-panel));
+  }
+  .badge-accent {
+    --c: var(--color-accent);
+  }
+  .badge-question {
+    --c: var(--color-question);
+  }
+  .badge-signal {
+    color: var(--color-on-signal);
+    background: var(--color-accent-2);
+  }
+  .badge-count {
+    @apply font-semibold;
+    color: var(--color-accent-fg);
+    background: var(--color-accent);
+  }
+  .badge-st-backlog {
+    --c: var(--color-st-backlog);
+  }
+  .badge-st-ready {
+    --c: var(--color-st-ready);
+  }
+  .badge-st-working {
+    --c: var(--color-st-working);
+  }
+  .badge-st-waiting {
+    --c: var(--color-st-waiting);
+  }
+  .badge-st-done {
+    --c: var(--color-st-done);
+  }
+  .badge-st-dropped {
+    --c: var(--color-st-dropped);
+  }
+  /* Waiting on a human: the one filled plate on a page, framed when it heads a
+     surface. Reserved for what the viewer must act on, so it keeps its meaning. */
+  .needs-plate {
+    @apply flex min-h-7 items-center gap-2 px-3 py-1 text-sm font-semibold;
+    /* The plate is the top band of a needs-frame: its top corners follow the
+       frame's inner curve and its bottom edge meets the body square. */
+    border-radius: max(0px, calc(var(--radius-panel) - var(--rule-bar))) max(0px, calc(var(--radius-panel) - var(--rule-bar))) 0 0;
+    color: var(--color-accent-fg);
+    background: var(--color-question);
+  }
+  .needs-frame {
+    background: color-mix(in srgb, var(--color-question) 6%, var(--color-panel));
+    border: var(--rule-bar) solid var(--color-question);
+    border-radius: var(--radius-panel);
+  }
+  /* The status square: the line colour beside its name, as on a network map. */
+  .swatch {
+    @apply inline-block h-2.5 w-2.5 shrink-0;
+    background: var(--c, var(--color-muted));
+  }
+  .kbd {
+    @apply inline-flex h-4 min-w-4 items-center justify-center px-1 font-mono text-2xs leading-none font-medium whitespace-nowrap;
+    border: var(--rule-hair) solid var(--color-line);
+    border-radius: var(--radius-control);
+    color: var(--color-muted);
+  }
+  .btn-primary .kbd {
+    border-color: color-mix(in oklch, var(--color-accent-fg) 45%, transparent);
+    color: var(--color-accent-fg);
+  }
+
+  /* Loading: bars in the shape of what is coming, still. */
+  .skeleton {
+    background: var(--color-sunken);
+    border-radius: var(--radius-control);
+  }
+
+  /* Header navigation */
+  .nav-link {
+    @apply inline-flex h-9 items-center px-3 text-md font-medium whitespace-nowrap text-muted;
+    border-radius: var(--radius-control);
+  }
+  .app-header .field,
+  .app-header .btn {
+    @apply h-9 text-base;
+  }
+  .app-header .btn-icon {
+    @apply w-9;
+  }
+  .nav-link:hover {
+    color: var(--color-fg);
+  }
+  .nav-link[aria-current="page"] {
+    background: var(--color-fg);
+    color: var(--color-canvas);
+  }
+  .skip-link {
+    @apply sr-only;
+  }
+  .skip-link:focus-visible {
+    @apply not-sr-only fixed top-2 left-2 z-50 bg-panel px-2 py-1 text-sm;
+    border-radius: var(--radius-control);
+  }
+}
+
+@layer components {
+  .md {
+    @apply text-md;
+    overflow-wrap: anywhere;
+  }
+  .md > :first-child {
+    margin-top: 0;
+  }
+  .md > :last-child {
+    margin-bottom: 0;
+  }
+  .md p,
+  .md ul,
+  .md ol,
+  .md pre,
+  .md blockquote,
+  .md table {
+    @apply my-2.5;
+  }
+  .md p {
+    max-width: 75ch;
+  }
+  .md h1,
+  .md h2,
+  .md h3,
+  .md h4,
+  .md h5,
+  .md h6 {
+    @apply mt-5 mb-2 font-semibold;
+    text-wrap: balance;
+  }
+  .md h1 {
+    @apply text-lg;
+  }
+  .md h2 {
+    @apply text-base;
+  }
+  .md h3 {
+    @apply text-base;
+  }
+  .md h4,
+  .md h5,
+  .md h6 {
+    @apply text-sm text-muted;
+  }
+  .md ul {
+    @apply list-disc pl-5;
+  }
+  .md ol {
+    @apply list-decimal pl-5;
+  }
+  .md li + li {
+    @apply mt-1;
+  }
+  .md li > ul,
+  .md li > ol {
+    @apply my-0.5;
+  }
+  .md a {
+    @apply underline underline-offset-2;
+    text-decoration-color: var(--color-line);
+  }
+  .md a:hover {
+    color: var(--color-accent);
+    text-decoration-color: currentColor;
+  }
+  .md code {
+    @apply bg-sunken px-1 py-0.5 text-sm;
+    border-radius: var(--radius-control);
+  }
+  .md pre {
+    @apply overflow-x-auto bg-sunken p-3;
+    border-radius: var(--radius-control);
+  }
+  .md pre code {
+    @apply bg-transparent p-0;
+  }
+  .md blockquote {
+    @apply pl-3 text-muted;
+    border-left: var(--rule-bar) solid var(--color-line);
+  }
+  .md hr {
+    @apply my-4 border-line;
+  }
+  .md table {
+    @apply block max-w-full overflow-x-auto border-collapse;
+  }
+  .md th,
+  .md td {
+    @apply px-2 py-1.5 text-left;
+    border-bottom: var(--rule-hair) solid var(--color-line);
+  }
+  .md th {
+    @apply font-medium whitespace-nowrap text-muted;
+    border-bottom: var(--rule-bar) solid var(--color-fg);
+  }
+  .md img {
+    @apply max-w-full;
+  }
+}

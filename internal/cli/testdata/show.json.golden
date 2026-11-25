@@ -1,0 +1,114 @@
+{
+  "id": "5001",
+  "project": "demo",
+  "number": 42,
+  "kind": "task",
+  "status": "working",
+  "title": "Fix login",
+  "body": "Users are redirected in a loop when the session has expired.",
+  "parent": 12,
+  "priority": "high",
+  "created_by": {
+    "kind": "user",
+    "id": "106666050296328877"
+  },
+  "version": 7,
+  "claim": {
+    "actor": {
+      "kind": "agent",
+      "id": "106666050296328901"
+    },
+    "session": "brisk-otter",
+    "expires_at": "2026-10-18T12:28:00Z"
+  },
+  "created_at": "2026-10-15T12:00:00Z",
+  "updated_at": "2026-10-18T11:57:00Z",
+  "links": [
+    {
+      "kind": "blocks",
+      "number": 44,
+      "title": "Ship v0.2",
+      "status": "backlog",
+      "direction": "out"
+    },
+    {
+      "kind": "blocks",
+      "number": 40,
+      "title": "Session store",
+      "status": "done",
+      "direction": "in"
+    }
+  ],
+  "children": [
+    {
+      "id": "5004",
+      "number": 45,
+      "kind": "task",
+      "status": "ready",
+      "title": "Add regression test",
+      "priority": "normal",
+      "updated_at": "0001-01-01T00:00:00Z"
+    }
+  ],
+  "comment": {
+    "id": "8001",
+    "card": 42,
+    "actor": {
+      "kind": "agent",
+      "id": "106666050296328901"
+    },
+    "body": "Cookie parsing done.\nTests for expiry left.",
+    "created_at": "2026-10-18T10:00:00Z"
+  },
+  "events": [
+    {
+      "id": "9102",
+      "position": "00000000000000009102-0000000000000009102",
+      "type": "card.claimed",
+      "actor": {
+        "kind": "agent",
+        "id": "106666050296328901"
+      },
+      "subject": {
+        "type": "card",
+        "id": "5001",
+        "number": 42
+      },
+      "payload": {
+        "title": "Fix login"
+      },
+      "created_at": "2026-10-18T11:57:00Z"
+    },
+    {
+      "id": "9101",
+      "position": "00000000000000009101-0000000000000009101",
+      "type": "card.status_changed",
+      "actor": {
+        "kind": "user",
+        "id": "106666050296328877"
+      },
+      "subject": {
+        "type": "card",
+        "id": "5001",
+        "number": 42
+      },
+      "payload": {
+        "title": "Fix login",
+        "from": "backlog",
+        "to": "ready"
+      },
+      "created_at": "2026-10-18T07:00:00Z"
+    }
+  ],
+  "blocked_by": [
+    {
+      "id": "5003",
+      "number": 17,
+      "kind": "question",
+      "status": "ready",
+      "title": "Postgres or SQLite for the cache?",
+      "priority": "normal",
+      "updated_at": "0001-01-01T00:00:00Z"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+.git
+.task
+.claude
+.serena
+/bin
+/dist
+/tmp
+web/node_modules
+.env
+.env.*

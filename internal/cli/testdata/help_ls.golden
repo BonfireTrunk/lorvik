@@ -1,0 +1,65 @@
+List cards in the project in board order, capped at --limit (default 10).
+Each line is: #number  status  priority  title  @claimant. Question cards have
+a "? " title prefix, stories "S " and decisions "D ". --story N lists a story's
+children, the same as --parent N. When more match, the last line says how many and gives
+the command for the next page:
+
+  remaining 37, next: lorvik ls --cursor <token>
+
+Times are YYYY-MM-DD (start of that day, machine time zone), a span back from
+now such as 7d, 24h or 30m, or an RFC 3339 time. "after" includes the instant,
+"before" excludes it, so --created-before 2026-10-20 means before the start of
+that day. A relative span is fixed to an absolute time in the paging line.
+--closed-* match done and dropped cards only.
+
+--assignee takes an actor id, me or none; it matches cards assigned to or
+claimed by that actor. Without --sort the order is the board: status, then
+priority, then number. --sort created|updated|priority|number is ascending;
+add --desc to reverse it (--sort priority --desc puts urgent first). A cursor
+only continues the sort it came from.
+
+Examples:
+  lorvik ls --open --mine
+  lorvik ls --status ready,waiting -L 25
+  lorvik ls -q "login" --kind question
+  lorvik ls --story 20
+  lorvik ls --kind decision --status ready
+  lorvik ls --status backlog --created-after 7d
+  lorvik ls --status ready --assignee none --priority high,urgent
+  lorvik ls --updated-after 24h --sort updated --desc
+  lorvik ls --closed-after 2026-10-20 --closed-before 2026-10-21
+  lorvik ls --cursor <token>
+
+Usage
+  lorvik ls [flags]
+
+Flags
+      --answered-for string     Only cards an agent settled for this user id or me (an answer or a verdict), not kept yet
+      --assignee string         Only cards assigned to or claimed by this actor id, me, or none
+      --closed-after string     Only closed at or after this time: YYYY-MM-DD, 7d, 24h, 30m
+      --closed-before string    Only closed strictly before this time: YYYY-MM-DD, 7d, 24h, 30m
+      --created-after string    Only created at or after this time: YYYY-MM-DD, 7d, 24h, 30m
+      --created-before string   Only created strictly before this time: YYYY-MM-DD, 7d, 24h, 30m
+      --cursor string           Continue from the next value printed by a previous page
+      --desc                    Reverse the --sort order
+  -h, --help                    help for ls
+      --kind string             Only cards of this kind: task, question, story or decision
+  -L, --limit int               Maximum cards to print (default 10)
+      --mine                    Only cards claimed by or assigned to me
+      --open                    Exclude done and dropped cards
+      --parent int              Only children of this card number
+      --priority strings        Only these priorities, comma separated (low,normal,high,urgent)
+  -q, --query string            Full-text match on title and body
+      --relayed                 Only questions whose answer an agent relayed
+      --sort string             Order by created, updated, priority or number instead of board order
+      --status strings          Only these statuses, comma separated (backlog,ready,working,waiting,done,dropped)
+      --story int               Only children of this story (same as --parent)
+      --updated-after string    Only updated at or after this time: YYYY-MM-DD, 7d, 24h, 30m
+      --updated-before string   Only updated strictly before this time: YYYY-MM-DD, 7d, 24h, 30m
+
+Global flags
+      --api-url string   Server URL (default: LORVIK_API_URL)
+      --json             Output the raw API JSON
+  -p, --project string   Project slug (default: LORVIK_PROJECT or .lorvik.toml)
+  -Q, --quiet            Suppress the unread notice on stderr and an empty inbox
+      --session string   Session label for this chat (default: LORVIK_SESSION or derived; see lorvik session)

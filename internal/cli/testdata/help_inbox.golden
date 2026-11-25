@@ -1,0 +1,69 @@
+Print events by other actors since your cursor, your own live claims
+(renewed by this call), the number of open questions and every live lock. Each event is one
+line: time, then a sentence naming who did what.
+
+An agent's claims are split: "my claims (renewed)" are this session's;
+"other sessions' claims (not renewed)" were taken by other chats
+under the same agent token and are not yours to continue. A human has one list.
+Each claim line ends with the time left on its lease.
+
+The server keeps no read position. The cursor lives in your user config,
+keyed by token, and is sent with every request; the "N unread" line other
+commands print on stderr counts events after it. A normal run advances it past
+what it examined, your own events included. --peek lists without advancing.
+Each chat keeps its own position; a chat with none starts from the newest
+position any chat of your token has stored. Positions idle for 7 days are
+forgotten.
+
+--from picks where to read from instead of the stored cursor:
+  now      set the cursor to the newest event and list nothing
+  oldest   read from the very beginning
+  <id>     read events after this event id or position
+Passing --project narrows the listing to one project and never advances the
+cursor, because events from other projects would be skipped unseen.
+
+With -Q and nothing new, inbox prints nothing at all, which keeps hook output
+out of an agent's context when there is nothing to say.
+
+--follow keeps running and prints one line per event that concerns this chat,
+as it happens: an event on a card this chat holds or created,
+or on a card assigned to you in this chat's project (--project, LORVIK_PROJECT
+or .lorvik.toml; any project when none is bound) unless another of your chats
+holds or created it. It starts at the stored cursor without moving it (at the newest event
+when there is no usable one), keeps its own position in memory, and rereads the inbox only when the event stream shows a new event,
+never on a timer. If the stream or a request fails it says so on stderr, retries
+with a pause that doubles from 1s to 30s and, once back, reads what it missed.
+Nothing it does renews this chat's claims: a listener running is not the chat
+working. A batch that printed an event ends with the cards this chat holds,
+one line each ("holding  #42  demo  Fix login  12m left"); it prints them at no
+other time. --once exits 0 after the first batch that held such an event. With --json each line is one
+Event object, and the held cards are one last line {"holding": ...}. Ctrl-C exits 0. --follow does not take --from.
+--exit-on-eof also exits 0 when stdin reaches end of file: an adapter that
+starts the listener keeps a pipe to its stdin open, so the listener ends with
+the adapter even when the adapter is killed.
+
+Examples:
+  lorvik inbox
+  lorvik inbox --peek -L 30
+  lorvik inbox --from now
+  lorvik inbox -Q -L 5          (from a harness hook)
+  lorvik inbox --follow --once  (block until something concerns this chat)
+
+Usage
+  lorvik inbox [flags]
+
+Flags
+      --exit-on-eof   With --follow: exit when stdin reaches end of file
+      --follow        Stay running and print only events that concern this chat, as they happen
+      --from string   Read from now, oldest or after this event id or position instead of the stored cursor
+  -h, --help          help for inbox
+  -L, --limit int     Maximum events to print (default 10)
+      --once          With --follow: exit after the first batch that held such an event
+      --peek          List without advancing the stored cursor
+
+Global flags
+      --api-url string   Server URL (default: LORVIK_API_URL)
+      --json             Output the raw API JSON
+  -p, --project string   Project slug (default: LORVIK_PROJECT or .lorvik.toml)
+  -Q, --quiet            Suppress the unread notice on stderr and an empty inbox
+      --session string   Session label for this chat (default: LORVIK_SESSION or derived; see lorvik session)

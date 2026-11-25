@@ -1,0 +1,16 @@
+{
+  "name": "@local/lorvik-wake-dsh",
+  "version": "1.0.0",
+  "description": "Explicitly armed Lorvik board-event follow-up turns for DeepSeek Harness",
+  "private": true,
+  "type": "module",
+  "license": "Apache-2.0",
+  "peerDependencies": {
+    "@deepseek-ai/dsh-agent": "0.2.2-rc.1",
+    "@deepseek-ai/dsh-llm": "0.2.2-rc.1",
+    "@deepseek-ai/dsh-tools": "0.2.2-rc.1"
+  },
+  "exports": { ".": "./index.js" },
+  "files": ["index.js", "cordis.patch.yml", "README.md", "check.md"],
+  "dsh": { "bundle": { "patch": "./cordis.patch.yml" } }
+}

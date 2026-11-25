@@ -1,0 +1,180 @@
+{
+  "story": {
+    "id": "6020",
+    "project": "demo",
+    "number": 20,
+    "kind": "story",
+    "status": "working",
+    "title": "Webhook delivery",
+    "body": "As an integrator, I want signed deliveries.",
+    "priority": "normal",
+    "lane": "webhooks",
+    "created_by": {
+      "kind": "user",
+      "id": "106666050296328877"
+    },
+    "version": 7,
+    "created_at": "2026-10-16T12:00:00Z",
+    "updated_at": "2026-10-18T11:00:00Z",
+    "links": [
+      {
+        "kind": "applies",
+        "project": "global",
+        "number": 3,
+        "title": "Postgres table with SKIP LOCKED",
+        "status": "done",
+        "direction": "in"
+      },
+      {
+        "kind": "relates",
+        "number": 9,
+        "title": "Old delivery",
+        "status": "done",
+        "direction": "out"
+      }
+    ],
+    "children": [
+      {
+        "id": "6021",
+        "number": 21,
+        "kind": "task",
+        "status": "done",
+        "title": "Add HMAC signing",
+        "priority": "high",
+        "parent": 20,
+        "updated_at": "0001-01-01T00:00:00Z"
+      },
+      {
+        "id": "6022",
+        "number": 22,
+        "kind": "task",
+        "status": "done",
+        "title": "Add retry policy",
+        "priority": "normal",
+        "lane": "api",
+        "updated_at": "0001-01-01T00:00:00Z"
+      },
+      {
+        "id": "6023",
+        "number": 23,
+        "kind": "task",
+        "status": "dropped",
+        "title": "Write the runbook",
+        "priority": "normal",
+        "updated_at": "0001-01-01T00:00:00Z"
+      },
+      {
+        "id": "6024",
+        "number": 24,
+        "kind": "decision",
+        "status": "done",
+        "title": "Use a pgx pool",
+        "priority": "normal",
+        "updated_at": "0001-01-01T00:00:00Z"
+      }
+    ],
+    "progress": {
+      "done": 3,
+      "total": 3
+    }
+  },
+  "children": [
+    {
+      "card": {
+        "id": "6021",
+        "number": 21,
+        "kind": "task",
+        "status": "done",
+        "title": "Add HMAC signing",
+        "priority": "high",
+        "parent": 20,
+        "updated_at": "0001-01-01T00:00:00Z"
+      },
+      "summary": "hmac signing, tests green",
+      "done": "Done: signing in sign.go. Left: nothing."
+    },
+    {
+      "card": {
+        "id": "6022",
+        "number": 22,
+        "kind": "task",
+        "status": "done",
+        "title": "Add retry policy",
+        "priority": "normal",
+        "lane": "api",
+        "updated_at": "0001-01-01T00:00:00Z"
+      },
+      "summary": "five tries with jitter",
+      "done": "Done: backoff 1s to 16s."
+    },
+    {
+      "card": {
+        "id": "6023",
+        "number": 23,
+        "kind": "task",
+        "status": "dropped",
+        "title": "Write the runbook",
+        "priority": "normal",
+        "updated_at": "0001-01-01T00:00:00Z"
+      }
+    }
+  ],
+  "decisions": [
+    {
+      "card": {
+        "id": "6024",
+        "number": 24,
+        "kind": "decision",
+        "status": "done",
+        "title": "Use a pgx pool",
+        "priority": "normal",
+        "parent": 20,
+        "decision": {
+          "accepted_by": {
+            "kind": "user",
+            "id": "106666050296328877"
+          },
+          "accepted_at": "2026-10-18T10:00:00Z",
+          "supersedes": 5
+        },
+        "fold": {
+          "into": "docs/requirements/webhooks.md",
+          "at": "2026-10-18T11:59:00Z",
+          "by": {
+            "kind": "user",
+            "id": "106666050296328877"
+          }
+        },
+        "updated_at": "2026-10-18T11:00:00Z"
+      },
+      "text": "Context: Queue needs SKIP LOCKED. Decision: pgxpool, no database/sql. Consequences: No driver portability."
+    },
+    {
+      "card": {
+        "id": "7003",
+        "project": "global",
+        "number": 3,
+        "kind": "decision",
+        "status": "done",
+        "title": "Postgres table with SKIP LOCKED",
+        "priority": "normal",
+        "updated_at": "0001-01-01T00:00:00Z"
+      },
+      "text": "Context: Redis adds a self-host dependency. Decision: Postgres table + SKIP LOCKED. Consequences: Throughput caps near 1k/s."
+    }
+  ],
+  "lanes": [
+    "webhooks",
+    "api"
+  ],
+  "documents": [
+    {
+      "path": "docs/requirements/webhooks.md",
+      "missing": true
+    },
+    {
+      "path": "docs/requirements/api.md",
+      "missing": false
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+#20  working  normal  S Webhook delivery
+created 2d ago by Ana Souza  updated 1h ago  version 7  lane webhooks  progress 3/3
+
+As an integrator, I want signed deliveries.
+
+Links:
+  relates #9  Old delivery  (done)
+
+Children:
+  #21  done  high  Add HMAC signing
+  #22  done  normal  Add retry policy
+  #23  dropped  normal  Write the runbook
+
+Decisions:
+  #24  done  D Use a pgx pool
+  #3  done  D Postgres table with SKIP LOCKED  (global)

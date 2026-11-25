@@ -1,0 +1,68 @@
+Sign in and save the token, with the server URL, in your user config file so
+later commands use it. There are two methods.
+
+GitHub (the default when no login is given): lorvik login prints a code and a
+GitHub address, you open it in a browser and enter the code, and the CLI
+exchanges your GitHub identity for a token. The server must have GitHub login
+enabled. If your access to the org is still waiting for an admin, login exits 5
+and says so.
+
+Password: lorvik login <login> (or --password with --login) exchanges a login
+and password for a token. Password login must be enabled on the server. The
+password comes from LORVIK_PASSWORD when set; otherwise it is prompted for on a
+terminal; otherwise login fails. It is never taken from a flag, which would
+leak into shell history.
+
+Which org: if you belong to one org you are signed in to it. If you belong to
+several, or an org has invited you, pass --org <id>; without it login lists
+them and asks which on a terminal, and without a terminal exits 4 with the
+list. An invitation is accepted by naming or picking its org, never just by
+signing in. If you belong to none, login exits 5 and says so. --create-org
+NAME makes a new org that you own and signs you in to it, also when you belong
+to others already. --org with an org you are no member of asks to join it
+(GitHub only) and exits 5 until an admin of that org lets you in.
+
+Either way the new secret is saved in the config file and not printed, so it
+stays out of terminal scrollback and pasted output; the line on stderr names
+its prefix. A script that needs the secret uses --json, which prints the token
+object with it.
+
+With --token <secret> nothing is exchanged: the secret and the server URL are
+written to the config file and no password is asked for. Combine it with
+LORVIK_CONFIG to provision an agent's own file:
+
+  LORVIK_CONFIG=~/.config/lorvik/claude-code.toml lorvik login --token <secret>
+
+A chat of a harness lorvik recognises needs no file of its own: it acts as
+the harness's own agent, made and renewed from this login (lorvik help config).
+
+The config file is written with mode 0600.
+
+A server named only by the repo's .lorvik.toml, and not the one saved in
+your config, could be anyone's: login asks before signing in to it, and
+without a terminal refuses (exit 5) unless --api-url names it.
+
+Examples:
+  lorvik login
+  lorvik login --org 106666050296328877
+  lorvik login --create-org "Acme"
+  LORVIK_PASSWORD=... lorvik login ana --org 106666050296328877
+
+Usage
+  lorvik login [login] [flags]
+
+Flags
+      --create-org string   Create an org with this name, owned by you, and sign in to it
+  -h, --help                help for login
+      --login string        Login name (or give it as the argument)
+      --org string          Org id to sign in to, when you belong to several orgs or an org has invited you
+      --password            Authenticate with a password instead of GitHub
+      --token string        Store this token in the config file instead of signing in
+      --token-name string   Label for the token
+
+Global flags
+      --api-url string   Server URL (default: LORVIK_API_URL)
+      --json             Output the raw API JSON
+  -p, --project string   Project slug (default: LORVIK_PROJECT or .lorvik.toml)
+  -Q, --quiet            Suppress the unread notice on stderr and an empty inbox
+      --session string   Session label for this chat (default: LORVIK_SESSION or derived; see lorvik session)

@@ -1,0 +1,28 @@
+Take the lock, run the command, release the lock. The lock is held for the
+command's life and renewed automatically; if a renewal fails the command is
+killed (its whole process group), lorvik says so on stderr and exits 4, because
+other agents may already think the lock is free. Otherwise lorvik exits with
+the command's exit code. The command keeps stdin, stdout and stderr, and
+nothing else is printed on stdout. A SIGINT or SIGTERM to lorvik is forwarded
+to the command, then the lock is released. The -- before the command is
+required.
+
+Example:
+  lorvik lock run schema -m "regenerating sqlc" -- task generate
+
+Usage
+  lorvik lock run <name> -m <purpose> -- <command> [args...] [flags]
+
+Flags
+      --card int         Number of the card the work is for, in the current project
+      --for duration     Lease length; the server accepts 1m to 1h (default 10m0s)
+  -h, --help             help for run
+  -m, --message string   What the lock protects (required)
+      --wait             Poll every 5 seconds until the lock is free, for up to 30 minutes
+
+Global flags
+      --api-url string   Server URL (default: LORVIK_API_URL)
+      --json             Output the raw API JSON
+  -p, --project string   Project slug (default: LORVIK_PROJECT or .lorvik.toml)
+  -Q, --quiet            Suppress the unread notice on stderr and an empty inbox
+      --session string   Session label for this chat (default: LORVIK_SESSION or derived; see lorvik session)

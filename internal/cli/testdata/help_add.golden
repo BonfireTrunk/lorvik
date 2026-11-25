@@ -1,0 +1,45 @@
+Create a card and print its line. --kind is task (the default), question,
+story or decision. Tasks and stories start in backlog; pass --ready to make
+them pullable by 'next'. Use '-b -' to read the body from stdin. Extra words
+are joined into the title. --parent puts the card under an open story in this
+project; a story has no parent. --supersedes N names the accepted decision a
+new decision replaces. 'lorvik decide' is the usual way to record a decision.
+--assignee takes me, an actor id, or user:<id> or agent:<id>. --lane tags the
+card with a lane such as schema or web; 'next' skips a card whose lane has a
+card in working. --page-file PATH attaches an HTML page (self-contained, up to
+1 MiB; - reads stdin); the body may then be empty. Not with '-b -'.
+When the server cannot be reached, 'add' waits in the queue, and 'lorvik sync'
+or the next command sends it.
+
+Examples:
+  lorvik add "Fix login redirect" -b "Loops on expired sessions" --priority high --ready
+  lorvik add "Split billing module" --parent 12
+  lorvik add "Webhook delivery" --kind story -b "As an integrator, ..." --lane webhooks --ready
+  echo "details..." | lorvik add "Investigate flake" -b -
+  lorvik add "Review the PR" --assignee agent:106666050296328901
+  lorvik add "Add a column" --lane schema --ready
+  lorvik add "Design review" -b "Summary" --page-file review.html
+
+Usage
+  lorvik add <title> [flags]
+
+Flags
+      --assignee string      Assignee: me, actor id, user:<id> or agent:<id>
+      --blocks int64Slice    Card number this question blocks (repeatable) (default [])
+  -b, --body string          Card body (- reads stdin)
+      --choice stringArray   Allowed answer for a question (repeatable)
+  -h, --help                 help for add
+      --kind string          task (default), question, story or decision
+      --lane string          Lane tag, e.g. schema or web
+      --page-file string     HTML page for the card from a file (- reads stdin)
+      --parent int           Parent story number (not for stories)
+      --priority string      low, normal, high or urgent
+      --ready                Create in ready instead of backlog
+      --supersedes int       Accepted decision number this decision replaces (decisions only)
+
+Global flags
+      --api-url string   Server URL (default: LORVIK_API_URL)
+      --json             Output the raw API JSON
+  -p, --project string   Project slug (default: LORVIK_PROJECT or .lorvik.toml)
+  -Q, --quiet            Suppress the unread notice on stderr and an empty inbox
+      --session string   Session label for this chat (default: LORVIK_SESSION or derived; see lorvik session)

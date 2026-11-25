@@ -1,0 +1,10 @@
+architecture  Architecture  @106666050296328901 (agent)  2h ago  (demo)
+version 4  created by 106666050296328877 2026-09-18
+Page: 900 B, open http://dashboard.test/notes/architecture?project=demo
+
+The server is a single binary.
+See [[card:7]].
+
+Backlinks:
+  card #42  Fix login
+  note runbook  Runbook

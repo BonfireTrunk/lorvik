@@ -1,0 +1,38 @@
+Decisions are cards of kind decision, shown with a "D " marker. Proposed is
+ready, accepted is done (in force), rejected and revoked are dropped with that
+reason, superseded is dropped when a newer decision replaces it. Accepted text
+is frozen: record a new decision with 'decide --supersedes N'.
+
+Examples:
+  lorvik decisions ls --status ready
+  lorvik decisions search "queue backend"
+  lorvik decisions show 7
+  lorvik decisions accept 8
+  lorvik decisions link 7 42
+
+Usage
+  lorvik decisions [flags]
+  lorvik decisions [command]
+
+Commands
+  accept      Accept a proposed decision
+  edit        Edit a proposed decision's title or sections
+  link        Apply a decision to a card
+  ls          List decisions, newest first
+  reject      Reject a proposed decision
+  revoke      Revoke an accepted decision
+  search      Search decisions
+  show        Show one decision in full
+  unlink      Remove a decision from a card
+
+Flags
+  -h, --help   help for decisions
+
+Global flags
+      --api-url string   Server URL (default: LORVIK_API_URL)
+      --json             Output the raw API JSON
+  -p, --project string   Project slug (default: LORVIK_PROJECT or .lorvik.toml)
+  -Q, --quiet            Suppress the unread notice on stderr and an empty inbox
+      --session string   Session label for this chat (default: LORVIK_SESSION or derived; see lorvik session)
+
+Run 'lorvik decisions <command> --help' for more information about a command.

@@ -1,0 +1,30 @@
+Stdout is data and stderr is diagnostics.
+
+Output
+  --json    add to any command for the raw API shape
+  ids       are strings
+  actors    are {kind, id}; names come from 'lorvik actors'
+  lists     are capped at 10; raise with --limit or continue with --cursor
+
+Unread line
+  When others have acted since your last 'lorvik inbox', a line
+  "N unread, run lorvik inbox" appears on stderr.
+
+Held cards
+  While this chat holds cards, every command ends its stdout with one line
+  per card: "holding  #42  demo  Fix login  12m left", the soonest to end
+  first, then "holding  3 more" past eight. Drop them with
+  grep -v '^holding  '. With --json there are no such lines: an object gains
+  a last field "holding" ({cards: [{project, number, title, expires_at}],
+  more}); an array is printed unchanged. A page's source (--page), a secret
+  shown once ('login', 'token create', 'agent register'), 'session',
+  'lock run', 'watch' and 'inbox' (which lists the claims itself) print none.
+
+Exit codes
+  0  ok
+  1  error
+  2  usage
+  3  not found
+  4  conflict
+  5  unauthorized
+

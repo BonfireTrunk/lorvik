@@ -1,0 +1,24 @@
+Claim the card; that already moves it to working, so this is one request.
+Fails with exit 4 if another actor holds the lease. --branch records the git
+branch the work is on, shown by 'show' and the dashboard. --for states how
+long the claim lasts without a renewal, as on 'claim'.
+
+Examples:
+  lorvik start 42
+  lorvik start 42 --branch card-42-lanes
+  lorvik start 42 --for 1h
+
+Usage
+  lorvik start <number> [flags]
+
+Flags
+      --branch string   Git branch the work is on
+      --for string      How long the claim lasts without a renewal, such as 1h (1m to 24h); default the project's lease
+  -h, --help            help for start
+
+Global flags
+      --api-url string   Server URL (default: LORVIK_API_URL)
+      --json             Output the raw API JSON
+  -p, --project string   Project slug (default: LORVIK_PROJECT or .lorvik.toml)
+  -Q, --quiet            Suppress the unread notice on stderr and an empty inbox
+      --session string   Session label for this chat (default: LORVIK_SESSION or derived; see lorvik session)

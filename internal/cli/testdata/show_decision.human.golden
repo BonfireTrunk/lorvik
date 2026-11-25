@@ -1,0 +1,14 @@
+#24  done  normal  D Use a pgx pool
+parent #20  created 5h ago by claude-code (agent)  updated 1h ago  version 3  accepted by Ana Souza 2h ago  supersedes #5  folded into docs/requirements/webhooks.md
+
+## Context
+
+Queue needs SKIP LOCKED.
+
+## Decision
+
+pgxpool, no database/sql.
+
+## Consequences
+
+No driver portability.

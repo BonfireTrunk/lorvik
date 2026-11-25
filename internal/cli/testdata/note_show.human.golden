@@ -1,0 +1,9 @@
+architecture  Architecture  @claude-code (agent)  2h ago  (demo)
+version 4  created by Ana Souza 2026-09-18
+
+The server is a single binary.
+See [[card:7]].
+
+Backlinks:
+  card #42  Fix login
+  note runbook  Runbook
