@@ -7,7 +7,9 @@ before:
   hooks:
     - go mod tidy
     # Build the dashboard once, not once per OS/arch (build-level hooks would).
-    - task web:build
+    # The lockfile is frozen so a release never resolves a dependency afresh.
+    - bun install --cwd=web --frozen-lockfile
+    - bun run --cwd=web build
 
 builds:
   - id: lorvik
@@ -49,14 +51,12 @@ archives:
 checksum:
   name_template: checksums.txt
 
+# Release notes come from CHANGELOG.md and the GitHub Release is created by the
+# shared release workflow (docs/requirements/release.md); GoReleaser only builds.
 changelog:
-  use: github
-  sort: asc
-  filters:
-    exclude: ["^docs:", "^test:", "^chore:"]
+  disable: true
 
 release:
-  draft: true
-  prerelease: auto
+  disable: true
 
 # Phase 2 adds: homebrew_casks, nfpms (deb/rpm), dockers, and scripts/install.sh.

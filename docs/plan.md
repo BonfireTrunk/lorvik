@@ -166,7 +166,7 @@ Install: `npx skills add BonfireTrunk/lorvik` once published; the installer syml
 ## 6. Repository layout
 
 ```
-go.mod  Taskfile.yml  .goreleaser.yaml  Dockerfile  AGENTS.md  LICENSE  LICENSE-APACHE  README.md
+go.mod  Taskfile.yml  .goreleaser.yaml  Dockerfile  AGENTS.md  LICENSE  LICENSE-APACHE  CHANGELOG.md  README.md
 cmd/lorvik/            CLI main
 cmd/lorvikd/           server main
 internal/cli/          cobra commands by noun; cmdutil for Factory, IOStreams, JSON exporter
@@ -182,7 +182,7 @@ skills/lorvik/         SKILL.md and references
 docs/                  plan, ADRs, research
 deploy/compose/        self-host compose
 scripts/install.sh
-.github/workflows/     ci.yml, release.yml
+.github/workflows/     build.yml, cla.yml, release.yml
 ```
 
 ## 7. Phases

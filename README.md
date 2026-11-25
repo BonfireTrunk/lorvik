@@ -46,15 +46,16 @@ export LORVIK_API_URL=http://localhost:8080 LORVIK_TOKEN=lvk_u_...
 
 ## Self-host
 
-`deploy/compose/compose.yaml` runs `lorvikd` with Postgres. Set `LORVIK_POSTGRES_PASSWORD` in a `.env` file beside it and run `docker compose up -d`. The dashboard is served at `/` and the API at `/api/v1/`.
+`deploy/compose/compose.yaml` runs `lorvikd` with Postgres. Set `LORVIK_POSTGRES_PASSWORD` and `LORVIK_VERSION` (a released version) in a `.env` file beside it and run `docker compose up -d`. The dashboard is served at `/` and the API at `/api/v1/`.
 
 ## Documentation
 
 - `docs/plan.md`: what is being built, in what order, and why
 - `docs/api.md`: API v1 route table
+- `docs/requirements/release.md`: what a release contains and how one is cut
 - `docs/adr/`: architecture decision records
 - `docs/research/`: notes that informed the design
 
 ## Licensing
 
-Server code is AGPL-3.0-only. The CLI, the API wire types and the skill are Apache-2.0. See `LICENSING.md`. Contributions are made under the [BonfireTrunk Contributor Agreement v1](https://github.com/BonfireTrunk/.github/blob/cla-v1/CLA.md).
+Server code is AGPL-3.0-only. The CLI, the API wire types and the skill are Apache-2.0. See `LICENSING.md`. Contributions are made under the [BonfireTrunk Contributor Agreement v1](https://github.com/BonfireTrunk/.github/blob/cla-v1/CLA.md), accepted with a tick box in the pull request.
