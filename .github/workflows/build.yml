@@ -21,7 +21,7 @@ jobs:
     timeout-minutes: 30
     services:
       postgres:
-        image: percona/percona-distribution-postgresql:18
+        image: percona/percona-distribution-postgresql:19
         env:
           POSTGRES_DB: lorvik_test
           POSTGRES_USER: lorvik

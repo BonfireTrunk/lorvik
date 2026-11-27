@@ -1,12 +1,12 @@
 # Development database only. `task db:up` / `task db:down`.
 # Connection string: postgres://lorvik:lorvik@localhost:5432/lorvik?sslmode=disable
-# Percona Distribution for PostgreSQL 18; data lives at /data/db in this image.
+# Percona Distribution for PostgreSQL 19; data lives at /data/db in this image.
 # initdb/ also creates lorvik_test for the integration tests.
 name: lorvik-dev
 
 services:
   db:
-    image: percona/percona-distribution-postgresql:18
+    image: percona/percona-distribution-postgresql:19
     ports:
       - "5432:5432"
     environment:
@@ -14,7 +14,7 @@ services:
       POSTGRES_USER: lorvik
       POSTGRES_PASSWORD: lorvik
     volumes:
-      - pgdata-dev-18:/data/db
+      - pgdata-dev-19:/data/db
       - ./initdb:/docker-entrypoint-initdb.d:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U lorvik -d lorvik"]
@@ -23,4 +23,4 @@ services:
       retries: 10
 
 volumes:
-  pgdata-dev-18:
+  pgdata-dev-19:

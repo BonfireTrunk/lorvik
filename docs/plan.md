@@ -97,7 +97,7 @@ Resources: orgs, projects, cards, decisions, notes, events, tokens, agents, me. 
 
 ### 3.5 Postgres only
 
-No SQLite, no embedded Postgres. Supporting two engines doubles every query and migration (see logchef and memos in the exemplar research). Self-hosters get a compose file. Postgres 15 or newer; the compose files, CI and local development run Percona Distribution for PostgreSQL 18 (a drop-in build of community Postgres), so that is the tested version.
+No SQLite, no embedded Postgres. Supporting two engines doubles every query and migration (see logchef and memos in the exemplar research). Self-hosters get a compose file. Postgres 15 or newer; the compose files, CI and local development run Percona Distribution for PostgreSQL 19 (a drop-in build of community Postgres), so that is the tested version.
 
 ### 3.6 Notifications to agents
 
