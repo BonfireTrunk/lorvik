@@ -1,0 +1,77 @@
+name: build
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    uses: BonfireTrunk/.github/.github/workflows/go-build.yml@96e2b0a666088c279b155515bad74cb5a1d84544
+
+  # Lorvik's own gate on top of the shared build: the same steps as the
+  # verify task in AGENTS.md, plus a snapshot of the release build.
+  gate:
+    runs-on: ubuntu-26.04
+    timeout-minutes: 30
+    services:
+      postgres:
+        image: percona/percona-distribution-postgresql:18
+        env:
+          POSTGRES_DB: lorvik_test
+          POSTGRES_USER: lorvik
+          POSTGRES_PASSWORD: lorvik
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U lorvik -d lorvik_test"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 20
+    env:
+      LORVIK_TEST_DATABASE_URL: postgres://lorvik:lorvik@localhost:5432/lorvik_test?sslmode=disable
+    defaults:
+      run:
+        # Named so that the step runs with pipefail.
+        shell: bash
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5 # v7.1.0
+        with:
+          go-version-file: go.mod
+
+      - name: Install the gate tools
+        run: |
+          go install github.com/go-task/task/v3/cmd/task@v3.54.0
+          go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.15.0
+
+      - name: Lint, unit tests, tidy and the API-only build
+        run: task check
+
+      - name: Generated code is committed
+        run: |
+          task generate
+          test -z "$(git status --porcelain)" || { git status --short; exit 1; }
+
+      - name: Store tests against Postgres
+        run: |
+          task test:integration -- -v 2>&1 | tee "$RUNNER_TEMP/integration.log"
+          # The store tests skip when they cannot reach the database.
+          if grep -q 'test database unavailable' "$RUNNER_TEMP/integration.log"; then
+            echo "::error::The store tests were skipped: no test database."
+            exit 1
+          fi
+
+      # The snapshot builds the dashboard from the frozen lockfile, as a release does.
+      - name: Dashboard and release build
+        run: |
+          . scripts/pinned-bun.sh
+          task release:snapshot

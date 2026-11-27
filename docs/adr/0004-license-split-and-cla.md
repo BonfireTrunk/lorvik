@@ -8,7 +8,7 @@ The project is open source and the owner also runs a hosted SaaS. A permissive l
 
 ## Decision
 
-Server-side code is AGPL-3.0-only. `cmd/lorvik`, `internal/cli`, `internal/client`, `internal/apitypes` and `skills/` are Apache-2.0. Every contributor accepts a contributor agreement. Until 2026-11-09 that was an Apache ICLA style agreement in Lorvik's own `CLA.md`; since the move to the BonfireTrunk org it is the [BonfireTrunk Contributor Agreement v1](https://github.com/BonfireTrunk/.github/blob/cla-v1/CLA.md), shared by every public org repository and enforced by the org's `cla` check on each pull request.
+Server-side code is AGPL-3.0-only. `cmd/lorvik`, `internal/cli`, `internal/client`, `internal/apitypes` and `skills/` are Apache-2.0. Every contributor accepts a contributor agreement. Until 2026-11-09 that was an Apache ICLA style agreement in Lorvik's own `CLA.md`; since the move to the BonfireTrunk org it is the [BonfireTrunk Contributor Agreement v1](https://github.com/BonfireTrunk/.github/blob/cla-v1/CLA.md), shared by every public org repository and enforced by the org's `cla` check on each pull request. The org agreement keeps the right to relicense and is wider than the old text: contributions may be licensed on any terms, proprietary included, with no promise of a particular licence, and it is accepted per pull request, not once per contributor.
 
 ## Consequences
 

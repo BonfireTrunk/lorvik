@@ -2,6 +2,8 @@ module github.com/BonfireTrunk/lorvik
 
 go 1.27.0
 
+toolchain go1.27.4
+
 require (
 	charm.land/bubbletea/v2 v2.1.0
 	charm.land/lipgloss/v2 v2.0.6

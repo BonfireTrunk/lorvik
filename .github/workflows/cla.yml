@@ -1,8 +1,11 @@
 name: cla
+
 on:
   pull_request:
     types: [opened, edited, reopened, synchronize]
+
 permissions: {}
+
 jobs:
   cla:
-    uses: BonfireTrunk/.github/.github/workflows/cla-check.yml@prime
+    uses: BonfireTrunk/.github/.github/workflows/cla-check.yml@96e2b0a666088c279b155515bad74cb5a1d84544
