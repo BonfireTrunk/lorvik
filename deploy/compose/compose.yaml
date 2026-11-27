@@ -1,12 +1,13 @@
 # Self-host: Lorvik server plus Postgres.
 #   docker compose up -d
 #   open http://localhost:8080
-# Set LORVIK_POSTGRES_PASSWORD in a .env file next to this compose file.
+# Set LORVIK_POSTGRES_PASSWORD and LORVIK_VERSION (a released version, for
+# example 0.4.0) in a .env file next to this compose file.
 name: lorvik
 
 services:
   db:
-    image: percona/percona-distribution-postgresql:18
+    image: percona/percona-distribution-postgresql:19
     restart: unless-stopped
     environment:
       POSTGRES_DB: lorvik
@@ -21,7 +22,7 @@ services:
       retries: 10
 
   lorvikd:
-    image: ghcr.io/bonfiretrunk/lorvikd:${LORVIK_VERSION:-latest}
+    image: ghcr.io/bonfiretrunk/lorvikd:${LORVIK_VERSION:?set LORVIK_VERSION in .env}
     restart: unless-stopped
     depends_on:
       db:

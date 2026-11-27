@@ -97,7 +97,7 @@ Resources: orgs, projects, cards, decisions, notes, events, tokens, agents, me. 
 
 ### 3.5 Postgres only
 
-No SQLite, no embedded Postgres. Supporting two engines doubles every query and migration (see logchef and memos in the exemplar research). Self-hosters get a compose file. Postgres 15 or newer; the compose files, CI and local development run Percona Distribution for PostgreSQL 18 (a drop-in build of community Postgres), so that is the tested version.
+No SQLite, no embedded Postgres. Supporting two engines doubles every query and migration (see logchef and memos in the exemplar research). Self-hosters get a compose file. Postgres 15 or newer; the compose files, CI and local development run Percona Distribution for PostgreSQL 19 (a drop-in build of community Postgres), so that is the tested version.
 
 ### 3.6 Notifications to agents
 
@@ -166,7 +166,7 @@ Install: `npx skills add BonfireTrunk/lorvik` once published; the installer syml
 ## 6. Repository layout
 
 ```
-go.mod  Taskfile.yml  .goreleaser.yaml  Dockerfile  AGENTS.md  LICENSE  LICENSE-APACHE  README.md
+go.mod  Taskfile.yml  .goreleaser.yaml  Dockerfile  AGENTS.md  LICENSE  LICENSE-APACHE  CHANGELOG.md  README.md
 cmd/lorvik/            CLI main
 cmd/lorvikd/           server main
 internal/cli/          cobra commands by noun; cmdutil for Factory, IOStreams, JSON exporter
@@ -182,7 +182,7 @@ skills/lorvik/         SKILL.md and references
 docs/                  plan, ADRs, research
 deploy/compose/        self-host compose
 scripts/install.sh
-.github/workflows/     ci.yml, release.yml
+.github/workflows/     build.yml, cla.yml, release.yml
 ```
 
 ## 7. Phases

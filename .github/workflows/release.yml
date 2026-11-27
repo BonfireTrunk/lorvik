@@ -1,0 +1,110 @@
+name: release
+
+# The release contract is the shared workflow's: a pull request squash-merged
+# into the default branch with the title "Release X.Y.Z" and a matching
+# CHANGELOG.md section (docs/requirements/release.md, section 2.5). Every other
+# push ends without doing anything.
+on:
+  push:
+    branches: ['**']
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  release:
+    permissions:
+      contents: write
+    uses: BonfireTrunk/.github/.github/workflows/go-release.yml@96e2b0a666088c279b155515bad74cb5a1d84544
+    with:
+      assets-command: ./scripts/release-assets.sh
+
+  # The server image holds the lorvikd binary of the published release, not a
+  # second build of it.
+  image:
+    needs: release
+    runs-on: ubuntu-26.04
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      packages: write
+    env:
+      IMAGE: ghcr.io/bonfiretrunk/lorvikd
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Find the release made from this commit
+        id: release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tags=$(gh api "repos/$GITHUB_REPOSITORY/git/matching-refs/tags/v" --paginate \
+            --jq ".[] | select(.object.sha == \"$GITHUB_SHA\") | .ref | ltrimstr(\"refs/tags/\") | select(test(\"^v[0-9]\"))")
+          count=$(printf '%s\n' "$tags" | grep -c . || true)
+          if [ "$count" -eq 0 ]; then
+            echo "No release tag on $GITHUB_SHA: this push was not a release."
+            exit 0
+          fi
+          if [ "$count" -gt 1 ]; then
+            echo "::error::Expected one release tag on $GITHUB_SHA, found: $tags"
+            exit 1
+          fi
+          echo "tag=$tags" >> "$GITHUB_OUTPUT"
+          echo "version=${tags#v}" >> "$GITHUB_OUTPUT"
+
+      - name: Sign in to the registry
+        if: steps.release.outputs.tag != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: printf '%s' "$GH_TOKEN" | docker login ghcr.io --username "$GITHUB_ACTOR" --password-stdin
+
+      - name: Check whether this version is already published
+        if: steps.release.outputs.tag != ''
+        id: published
+        env:
+          VERSION: ${{ steps.release.outputs.version }}
+        run: |
+          if answer=$(docker manifest inspect "$IMAGE:$VERSION" 2>&1 >/dev/null); then
+            echo "$IMAGE:$VERSION exists; a published image is never replaced."
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          # Only an answer that the tag or the package is not there counts as
+          # unpublished. A timeout or a registry error must not lead to a push.
+          elif ! printf '%s' "$answer" | grep -Eqi 'manifest unknown|name unknown|not found|no such manifest|denied'; then
+            echo "::error::Could not ask the registry about $IMAGE:$VERSION: $answer"
+            exit 1
+          fi
+
+      - name: Fetch and verify the released server archives
+        if: steps.release.outputs.tag != '' && steps.published.outputs.exists != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.release.outputs.tag }}
+          VERSION: ${{ steps.release.outputs.version }}
+        run: |
+          mkdir "$RUNNER_TEMP/release" "$RUNNER_TEMP/context"
+          cd "$RUNNER_TEMP/release"
+          gh release download "$TAG" --repo "$GITHUB_REPOSITORY" \
+            --pattern "lorvikd_${VERSION}_linux_*.tar.gz" --pattern checksums.txt
+          sha256sum --check --strict --ignore-missing checksums.txt
+          for arch in amd64 arm64; do
+            mkdir "$RUNNER_TEMP/context/linux_$arch"
+            tar -xzf "lorvikd_${VERSION}_linux_${arch}.tar.gz" -C "$RUNNER_TEMP/context/linux_$arch" lorvikd
+          done
+
+      - name: Build and push the image for both architectures
+        if: steps.release.outputs.tag != '' && steps.published.outputs.exists != 'true'
+        env:
+          VERSION: ${{ steps.release.outputs.version }}
+        run: |
+          for arch in amd64 arm64; do
+            docker build --platform "linux/$arch" --build-arg BINARY=released \
+              --tag "$IMAGE:$VERSION-$arch" --file Dockerfile "$RUNNER_TEMP/context"
+            docker push "$IMAGE:$VERSION-$arch"
+          done
+          docker buildx imagetools create --tag "$IMAGE:$VERSION" \
+            "$IMAGE:$VERSION-amd64" "$IMAGE:$VERSION-arm64"

@@ -6,6 +6,8 @@ import (
 	"context"
 	"fmt"
 	"os"
+	"runtime"
+	"strings"
 	"testing"
 	"time"
 
@@ -31,6 +33,7 @@ func run(m *testing.M) int {
 	if url == "" {
 		url = defaultTestDatabaseURL
 	}
+	url = withPoolSize(url, 3*runtime.GOMAXPROCS(0))
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
 	st, err := Open(ctx, url)
@@ -50,6 +53,26 @@ func run(m *testing.M) int {
 	}
 	testStore = st
 	return m.Run()
+}
+
+// withPoolSize sets the shared pool's size unless the URL already does. A race
+// test holds three connections at once (its transaction, a second writer
+// blocked behind it and the poll that sees the block), and up to GOMAXPROCS
+// tests run in parallel. pgx's default of max(4, CPUs) connections left the
+// poll waiting for a free one on a 2-CPU machine until the test's deadline.
+func withPoolSize(url string, n int) string {
+	if strings.Contains(url, "pool_max_conns") {
+		return url
+	}
+	param := fmt.Sprintf("pool_max_conns=%d", n)
+	switch {
+	case !strings.Contains(url, "://"):
+		return url + " " + param
+	case strings.Contains(url, "?"):
+		return url + "&" + param
+	default:
+		return url + "?" + param
+	}
 }
 
 var t0 = time.Date(2026, 10, 18, 12, 0, 0, 0, time.UTC)
